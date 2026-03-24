@@ -26,7 +26,7 @@ Sistemin tüm aktörleri (Tüketici, Market Sahibi, Sistem Yöneticisi) ve onlar
 * *Market:* Stok yönetimini üstlenir ve satışı sadece rezervasyon koduyla doğrular.
 * *Sistem Yöneticisi:* Marketlerin meşruiyetini onaylayarak platformun güvenliğini sağlar.
 
-![Use Case Diyagramı](use-case-diagram.png)
+![Use Case Diyagramı](use%20case.drawio.png)
 
 ### 2. UML Sınıf (Class) Diyagramı ve Mantıksal Veritabanı Mimarisi (ERD)
 Sistemin veritabanı omurgası, nesneye yönelik prensiplere uygun olarak 4 temel varlık (Tüketici, Market, Ürün, Rezervasyon) üzerinden tasarlanmıştır. Bu tasarım, hocanızın kriterlerinde istenen "detaylı veritabanı tasarımı" somut çıktısını oluşturur.
@@ -37,7 +37,7 @@ Sistemin veritabanı omurgası, nesneye yönelik prensiplere uygun olarak 4 teme
 * *Yarış Durumu (Race Condition) Çözümü:* Rezervasyon tablosundaki Durum (ENUM) ve PIN_Kodu alanları, aynı ürünün aynı anda iki kişiye satılmasını veritabanı seviyesinde engellemektedir.
 * *İş Mantığı (Business Logic) Kararları:* Tüketicinin marketin kapalı olduğu saatte rezervasyon yapmasını engellemek için Market tablosuna Acilis_Saati ve Kapanis_Saati alanları eklenmiştir.
 
-![Veritabanı Şeması](database-schema.png)
+![Veritabanı Şeması](uml.drawio.png)
 
 ---
-Bu doküman, Çevik (Agile) Yazılım Mühendisliği süreç yönetimi ve versiyon kontrol standartlarına uygun olarak 1. Sprint sonunda elde edilen resmi Analiz ve Tasarım Raporudur.
+Bu doküman, İstanbul Arel Üniversitesi *"Yazılım Gereksinim Analizi"* ve *"Yazılımda Çevik Yaklaşımlar"* dersleri ortak proje gereksinimleri kapsamında, 1. Sprint resmi çıktısı (Increment) olarak hazırlanmıştır.
