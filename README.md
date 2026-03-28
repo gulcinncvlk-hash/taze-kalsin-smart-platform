@@ -9,9 +9,9 @@ Günümüz küresel tedarik zincirinde gıda israfı, hem ekolojik bir kriz hem 
 
 ## 👥 Geliştirme Takımı ve Agile Rol Dağılımı
 Projemiz, Scrum çerçevesi temel alınarak Çevik (Agile) prensiplerle yürütülmektedir.
-Product Owner (Ürün Sahibi):* Adem Fırat Kaya - Proje vizyonunun belirlenmesi, iş listesinin (Backlog) önceliklendirilmesi ve paydaş (BİM A.Ş. Mağaza Müdürü) iletişiminden sorumludur.
-* Scrum Master:* Hilal Coşkun - Çevik süreçlerin işletilmesi, Jira/Kanban panosunun yönetimi, takımın önündeki engellerin kaldırılması ve Sprint etkinliklerinin (Planlama, Daily, Retro) yürütülmesinden sorumludur.
-* Geliştirme Takımı (Development Team):* Gülçin Civelek, Merve Temizler, Mehtap Gültepe - Yazılım gereksinim analizi, UML modelleme, veritabanı mimarisinin inşası, arayüz prototipleme ve uçtan uca kod geliştirme süreçlerini yürütürler
+Product Owner (Ürün Sahibi):* Adem Fırat Kaya* - Proje vizyonunun belirlenmesi, iş listesinin (Backlog) önceliklendirilmesi ve paydaş (BİM A.Ş. Mağaza Müdürü) iletişiminden sorumludur.
+* Scrum Master:* Hilal Coşkun* - Çevik süreçlerin işletilmesi, Jira/Kanban panosunun yönetimi, takımın önündeki engellerin kaldırılması ve Sprint etkinliklerinin (Planlama, Daily, Retro) yürütülmesinden sorumludur.
+* Geliştirme Takımı (Development Team):* Gülçin Civelek*, *Merve Temizler*,* Mehtap Gültepe* - Yazılım gereksinim analizi, UML modelleme, veritabanı mimarisinin inşası, arayüz prototipleme ve uçtan uca kod geliştirme süreçlerini yürütürler
 
 ## 🚀 Sprint 1 Hedefleri ve Teknik Çıktılar (Increment)
 Bu ilk sprintin temel amacı, projenin teknik ve mantıksal iskeletini inşa etmektir.
@@ -33,7 +33,7 @@ Diyagramımızda 3 ana insan aktörü (Tüketici, Market Sahibi, Sistem Yönetic
 
 1.  *Tüketici Senaryoları:* Temel hedefi gıda israfını önlerken tasarruf etmek olan tüketici için ; "Konum İzni Ver" Use Case'i, dış aktör "Konum API"yi <<include>> ilişkisiyle dahil ederek kullanıcının çevresindeki marketleri tespit eder . "Ürünü Kısa Süreli Ayırt (Rezervasyon)" işlevi, projenin kalbi olup, başarılı rezervasyon sonrası "Bildirim Servisi"ni <<include>> ile tetikleyerek onay PIN'ini gönderir.
 2.  *Market Sahibi Senaryoları:* Tarihi yaklaşan ürünleri hızlıca sisteme yükleme hedefine uygun olarak; "S.T.T. Yaklaşan Ürün Ekle" ve "Son Şans Paketi Oluştur" Use Case'leri veri girişini sağlar. "QR/PIN ile Satışı Doğrula" işlevi, sistemin rezervasyon mantığını tamamlar.
-3.  *Sistem Yöneticisi Senaryoları:* Platform trafiğini ve önlenen israfı raporlama hedefine uygun olarak; "Market Başvurularını Onayla/Reddet" Use Case'i, platformun güvenliğini sağlar (bu işlev veritabanında Market.Onay_Durumu alanı ile doğrudan desteklenmektedir, bkz: image_0.png).
+3.  *Sistem Yöneticisi Senaryoları:* Platform trafiğini ve önlenen israfı raporlama hedefine uygun olarak; "Market Başvurularını Onayla/Reddet" Use Case'i, platformun güvenliğini sağlar (bu işlev veritabanında Market.Onay_Durumu alanı ile doğrudan desteklenmektedir.
 
 ---
 
