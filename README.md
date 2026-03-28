@@ -1,41 +1,64 @@
-# Taze Kalsın: Akıllı Gıda Takip ve İndirim Platformu
+# 🍃 Taze Kalsın: Akıllı Gıda Takip ve İndirim Platformu
 
-## 📌 Proje Vizyonu ve Problem Tanımı
-Küresel ölçekte büyük bir sorun olan gıda israfını yerel düzeyde çözmeyi hedefleyen "Taze Kalsın", marketlerin Son Tüketim Tarihi (S.T.T.) yaklaşan ürünlerini israf etmek yerine, anlık bildirim ve rezervasyon tabanlı dijital bir platform üzerinden indirimli fiyatlarla tüketiciye ulaştırmasını sağlar. Proje, hem marketlerin zararını minimize etmeyi hem de tüketicilerin uygun fiyatlı gıdaya erişimini kolaylaştırarak sürdürülebilir bir ekosistem yaratmayı amaçlar.
+Bu depo, İstanbul Arel Üniversitesi "Yazılım Gereksinim Analizi" ve "Çevik Yazılım Yaklaşımları" dersleri kapsamında geliştirilen *Taze Kalsın* projesinin resmi 1. Sprint Analiz ve Mimari Raporunu içermektedir.
 
-## 👥 Geliştirme Takımı ve Rol Dağılımı (Çevik/Agile Yapı)
-Değerlendirme kriterlerinde istenen rol netliği ve organizasyonel yapı şu şekilde kurgulanmıştır:
+## 🎯 Proje Vizyonu ve Problem Tanımı
+Günümüz küresel tedarik zincirinde gıda israfı, hem ekolojik bir kriz hem de devasa bir ekonomik kayıptır.Gıda perakende sektöründeki en büyük operasyonel eksikliklerden biri, raflarda bekleyen ve Son Tüketim Tarihi (S.T.T.) yaklaşan ürünlerin dijital olarak izlenememesi ve etkin bir şekilde yönetilememesidir.Bu durum, satıcılar için doğrudan sermaye kaybı yaratırken, ürünlerin çöpe gitmesine neden olmaktadır.
 
-* *Scrum Master:* Hilal
-    * Sorumluluk: Çevik süreçlerin takibi, Jira/Kanban panosunun yönetimi ve ekip içi engellerin kaldırılması.
-* *Product Owner:* Adem
-    * Sorumluluk: Ürün İş Listesi'nin (Product Backlog) önceliklendirilmesi ve iş gereksinimlerinin (Use Case) tanımlanması.
-* *Geliştirme Takımı (Dev Team):* Gülçin, Mehtap, Merve
-    * Sorumluluk: Sistem analizi, UML modelleme, veritabanı tasarımı ve kodlama (sonraki sprintlerde).
+*Taze Kalsın*, bu probleme dijital ve çevik bir çözüm sunar. Platformumuz; S.T.T.'si yaklaşan ürünleri tespit ederek marketlerin "Flash İndirimler" düzenlemesini sağlarken, tüketicilere anlık lokasyon bazlı bildirimler göndererek israfı önlemeyi ve fırsat eşitliği yaratmayı hedefler.
 
----
+## 👥 Geliştirme Takımı ve Agile Rol Dağılımı
+Projemiz, Scrum çerçevesi temel alınarak Çevik (Agile) prensiplerle yürütülmektedir.
+Product Owner (Ürün Sahibi):* Adem Fırat Kaya - Proje vizyonunun belirlenmesi, iş listesinin (Backlog) önceliklendirilmesi ve paydaş (BİM A.Ş. Mağaza Müdürü) iletişiminden sorumludur.
+* Scrum Master:* Hilal Coşkun - Çevik süreçlerin işletilmesi, Jira/Kanban panosunun yönetimi, takımın önündeki engellerin kaldırılması ve Sprint etkinliklerinin (Planlama, Daily, Retro) yürütülmesinden sorumludur.
+* Geliştirme Takımı (Development Team):* Gülçin Civelek, Merve Temizler, Mehtap Gültepe - Yazılım gereksinim analizi, UML modelleme, veritabanı mimarisinin inşası, arayüz prototipleme ve uçtan uca kod geliştirme süreçlerini yürütürler
 
-## 🎯 Sprint 1 Hedefleri ve Teknik Çıktılar (Increment)
-31 Mart 2026 tarihindeki 1. Sprint sonu sunumu için projenin temel analiz, sistem sınırları ve veritabanı mimarisi (UML Sınıf ve ER tasarımları) tamamlanmıştır.
+## 🚀 Sprint 1 Hedefleri ve Teknik Çıktılar (Increment)
+Bu ilk sprintin temel amacı, projenin teknik ve mantıksal iskeletini inşa etmektir.
+1. Mimari Analiz:* Sistemin temel işlevlerini ve aktörlerini belirleyen UML Kullanım Senaryosu (Use Case) modellemes.
+2. *Veritabanı Tasarımı:* Yarış durumu (race condition) senaryolarına dayanıklı İlişkisel Varlık (ER) diyagramının çizilmesi.
+3. *Fiziksel Altyapı:* Çizilen tasarımın T-SQL (Microsoft SQL Server) üzerinde ayağa kaldırılması ve test verileriyle doğrulanması.
+## 📊 UML Modelleme ve Analiz (Teknik Doğruluk ve Tutarlılık)
 
-### 1. Kullanım Senaryosu (Use Case) Analizi ve Sistem Sınırları
-Sistemin tüm aktörleri (Tüketici, Market Sahibi, Sistem Yöneticisi) ve onların sistemle olan etkileşimleri modellenmiştir. Bu aşamada yapılan en kritik mühendislik kararı, fiziksel dünyada yaşanabilecek yarış durumunu (race condition) önlemek için *QR/PIN tabanlı rezervasyon* mantığının sisteme entegre edilmesidir.
+Hocamızın belirlediği değerlendirme kriterlerine uygun olarak, projenin teknik iskeleti standartlara uygun UML diyagramları ile modellenmiştir. Use Case diyagramımızdaki her işlev, Jira'daki bir "User Story" kartı ile birebir örtüşerek model-yönetim tutarlılığını sağlamaktadır .
 
-*Detaylı Analiz Kararları:*
-* *Tüketici:* Ürünleri sadece görüntülemekle kalmaz, 30 dakikalık süre için rezerve edebilir.
-* *Market:* Stok yönetimini üstlenir ve satışı sadece rezervasyon koduyla doğrular.
-* *Sistem Yöneticisi:* Marketlerin meşruiyetini onaylayarak platformun güvenliğini sağlar.
+### A. Kullanım Senaryosu (Use Case) Diyagramı
+
+Bu diyagram, Taze Kalsın platformunun temel aktörlerini, sistem sınırlarını ve aktörlerin sistemle etkileşimlerini görselleştirmektedir .
 
 ![Use Case Diyagramı](use%20case.drawio.png)
 
-### 2. UML Sınıf (Class) Diyagramı ve Mantıksal Veritabanı Mimarisi (ERD)
-Sistemin veritabanı omurgası, nesneye yönelik prensiplere uygun olarak 4 temel varlık (Tüketici, Market, Ürün, Rezervasyon) üzerinden tasarlanmıştır. Bu tasarım, hocanızın kriterlerinde istenen "detaylı veritabanı tasarımı" somut çıktısını oluşturur.
+*Detaylı Modelleme Analizi:*
+Diyagramımızda 3 ana insan aktörü (Tüketici, Market Sahibi, Sistem Yöneticisi) ve 2 dış sistem aktörü (Konum API, Bildirim Servisi) tanımlanmıştır.
 
-*Teknik Derinlik ve Veritabanı Standartları:*
-* *Normalizasyon:* Veri tekrarını önlemek için taslak 3NF'ye (Third Normal Form) uygun hale getirilmiştir.
-* *Veri Tutarlılığı (Integrity):* Tuketici_ID, Market_ID, Urun_ID gibi alanlar üzerinden Birincil ve Yabancı Anahtar (PK/FK) ilişkileri kurularak veri bütünlüğü garantilenmiştir.
-* *Yarış Durumu (Race Condition) Çözümü:* Rezervasyon tablosundaki Durum (ENUM) ve PIN_Kodu alanları, aynı ürünün aynı anda iki kişiye satılmasını veritabanı seviyesinde engellemektedir.
-* *İş Mantığı (Business Logic) Kararları:* Tüketicinin marketin kapalı olduğu saatte rezervasyon yapmasını engellemek için Market tablosuna Acilis_Saati ve Kapanis_Saati alanları eklenmiştir.
+1.  *Tüketici Senaryoları:* Temel hedefi gıda israfını önlerken tasarruf etmek olan tüketici için ; "Konum İzni Ver" Use Case'i, dış aktör "Konum API"yi <<include>> ilişkisiyle dahil ederek kullanıcının çevresindeki marketleri tespit eder . "Ürünü Kısa Süreli Ayırt (Rezervasyon)" işlevi, projenin kalbi olup, başarılı rezervasyon sonrası "Bildirim Servisi"ni <<include>> ile tetikleyerek onay PIN'ini gönderir.
+2.  *Market Sahibi Senaryoları:* Tarihi yaklaşan ürünleri hızlıca sisteme yükleme hedefine uygun olarak; "S.T.T. Yaklaşan Ürün Ekle" ve "Son Şans Paketi Oluştur" Use Case'leri veri girişini sağlar. "QR/PIN ile Satışı Doğrula" işlevi, sistemin rezervasyon mantığını tamamlar.
+3.  *Sistem Yöneticisi Senaryoları:* Platform trafiğini ve önlenen israfı raporlama hedefine uygun olarak; "Market Başvurularını Onayla/Reddet" Use Case'i, platformun güvenliğini sağlar (bu işlev veritabanında Market.Onay_Durumu alanı ile doğrudan desteklenmektedir, bkz: image_0.png).
+
+---
+
+## 🗄️ Mantıksal Veritabanı Tasarımı (ERD)
+
+Projenin veri yapısını gösteren model , projenin vizyonu doğrultusunda gıda israfını önleyecek ve veri bütünlüğünü sağlayacak şekilde tasarlanmıştır.
+
+(UML Mantıksal ER Diyagramı Resmini (image_0.png) Buraya Sürükleyip Bırak)
+
+*Detaylı Tasarım ve İlişki Analizi:*
+
+Tasarımımızda 4 ana varlık (tablo) ve bu varlıklar arasındaki katı ilişkisel kurallar tanımlanmıştır.
+
+1.  *Varlıklar ve Kısıtlamalar:*
+    * Market: Market_ID birincil anahtarına (PK) sahiptir. Adres, Konum_Enlem/Boylam, Saatler ve Admin Use Case'ini destekleyen Onay_Durumu (BOOLEAN) alanlarını barındırır.
+    * Tuketici: Tuketici_ID (PK) barındırır. Kg_Kurtarilan (FLOAT) alanı ile platformun toplumsal vizyonu olan önlenen israf miktarını takip eder .
+    * Urun: Urun_ID (PK) barındırır. Normal_Fiyat ve Indirimli_Fiyat alanları, flash indirimleri yönetmek için DECIMAL veri tipinde tanımlanmıştır. STT (Son Tüketim Tarihi) alanı, sistemin temel mantığını oluşturur.
+    * Rezervasyon (İşlem): Islem_ID (PK) barındırır. Tuketici_ID ve Urun_ID alanlarını yabancı anahtar (FK) olarak barındırarak tüketici ve ürünü birbirine bağlar. Miktar, Zaman, PIN ve Durum alanlarını barındırır.
+
+2.  *İlişki Mantığı (Relational Integrity):*
+    * Market ve Ürün arasında *1'e Çok (1:N)* ilişki vardır (Satışa Sunar). Bir marketin birden çok tarihi yakın ürünü olabilir.
+    * Tüketici ve Rezervasyon arasında *1'e Çok (1:N)* ilişki vardır (Yapar). Bir tüketici birden çok rezervasyon yapabilir.
+    * Ürün ve Rezervasyon arasında *1'e Çok (1:N)* ilişki vardır (İçerir). Bu kritik bir ilişkidir; *aynı ürünün farklı rezervasyonlarda yer alması, "yarış durumu" (race condition) analizimiz için temel veri yapısını oluşturur.*
+
+3.  *Teknik Uyum:* ER diyagramındaki veri tipleri ve kısıtlamalar, "Sürüm Kontrolü" aşamasında (GitHub/Commit Disiplini ) T-SQL kodlarına birebir dönüştürülerek fiziksel kurulum tamamlanmıştır.
 
 ![Veritabanı Şeması](uml.drawio.png)
 ## 💾 1. Sprint Çıktısı (Increment): Fiziksel Veritabanı Kurulumu ve Testi
