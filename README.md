@@ -40,8 +40,7 @@ Diyagramımızda 3 ana insan aktörü (Tüketici, Market Sahibi, Sistem Yönetic
 ## 🗄️ Mantıksal Veritabanı Tasarımı (ERD)
 
 Projenin veri yapısını gösteren model , projenin vizyonu doğrultusunda gıda israfını önleyecek ve veri bütünlüğünü sağlayacak şekilde tasarlanmıştır.
-
-(UML Mantıksal ER Diyagramı Resmini (image_0.png) Buraya Sürükleyip Bırak)
+![Veritabanı Şeması](uml.drawio.png)
 
 *Detaylı Tasarım ve İlişki Analizi:*
 
@@ -59,9 +58,7 @@ Tasarımımızda 4 ana varlık (tablo) ve bu varlıklar arasındaki katı ilişk
     * Ürün ve Rezervasyon arasında *1'e Çok (1:N)* ilişki vardır (İçerir). Bu kritik bir ilişkidir; *aynı ürünün farklı rezervasyonlarda yer alması, "yarış durumu" (race condition) analizimiz için temel veri yapısını oluşturur.*
 
 3.  *Teknik Uyum:* ER diyagramındaki veri tipleri ve kısıtlamalar, "Sürüm Kontrolü" aşamasında (GitHub/Commit Disiplini ) T-SQL kodlarına birebir dönüştürülerek fiziksel kurulum tamamlanmıştır.
-
-![Veritabanı Şeması](uml.drawio.png)
-## 💾 1. Sprint Çıktısı (Increment): Fiziksel Veritabanı Kurulumu ve Testi
+## Fiziksel Veritabanı Kurulumu ve Testi
 
 Projenin mantıksal veri modeli (ERD); veri bütünlüğü, ACID standartları ve "aynı ürünü iki kişinin rezerve etmesini önleme (yarış durumu/race condition)" senaryosu göz önüne alınarak *T-SQL (Microsoft SQL Server)* üzerinde fiziksel olarak inşa edilmiştir.
 
