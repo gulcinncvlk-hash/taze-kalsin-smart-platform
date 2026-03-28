@@ -38,6 +38,19 @@ Sistemin veritabanı omurgası, nesneye yönelik prensiplere uygun olarak 4 teme
 * *İş Mantığı (Business Logic) Kararları:* Tüketicinin marketin kapalı olduğu saatte rezervasyon yapmasını engellemek için Market tablosuna Acilis_Saati ve Kapanis_Saati alanları eklenmiştir.
 
 ![Veritabanı Şeması](uml.drawio.png)
+## 💾 1. Sprint Çıktısı (Increment): Fiziksel Veritabanı Kurulumu ve Testi
+
+Projenin mantıksal veri modeli (ERD); veri bütünlüğü, ACID standartları ve "aynı ürünü iki kişinin rezerve etmesini önleme (yarış durumu/race condition)" senaryosu göz önüne alınarak *T-SQL (Microsoft SQL Server)* üzerinde fiziksel olarak inşa edilmiştir.
+
+*Tamamlanan Altyapı Adımları:*
+* Tuketici, Market, Urun ve Rezervasyon tabloları oluşturulmuş, Primary Key (PK) ve Foreign Key (FK) ilişkileri kurularak ilişkisel bütünlük sağlanmıştır.
+* Sistemin ilişkisel mantığını doğrulamak amacıyla tablolara örnek test verileri (Mock Data) girilmiştir.
+* Parçalı veriler INNER JOIN sorgusuyla birleştirilerek anlamlı bir rapora dönüştürülmüş ve projenin veritabanı iskeleti %100 oranında doğrulanmıştır.
+
+*Veritabanı Mimari Kurulum ve JOIN Testi Ekran Görüntüsü:*
+
+<img width="1562" height="677" alt="sql-test" src="https://github.com/user-attachments/assets/dc971776-d869-441b-ad14-5b28a100f2bc" />
+
 
 ---
 Bu doküman, İstanbul Arel Üniversitesi *"Yazılım Gereksinim Analizi"* ve *"Yazılımda Çevik Yaklaşımlar"* dersleri ortak proje gereksinimleri kapsamında, 1. Sprint resmi çıktısı (Increment) olarak hazırlanmıştır.
