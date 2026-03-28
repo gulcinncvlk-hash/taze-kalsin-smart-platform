@@ -39,7 +39,8 @@ Diyagramımızda 3 ana insan aktörü (Tüketici, Market Sahibi, Sistem Yönetic
 
 ## 🗄️ Mantıksal Veritabanı Tasarımı (ERD)
 
-Projenin veri yapısını gösteren model , projenin vizyonu doğrultusunda gıda israfını önleyecek ve veri bütünlüğünü sağlayacak şekilde tasarlanmıştır.
+Projenin veri yapısını gösteren model , projenin vizyonu doğrultusunda gıda israfını önleyecek ve veri bütünlüğünü sağlayacak şekilde tasarlanmıştır. 
+
 ![Veritabanı Şeması](uml.drawio.png)
 
 *Detaylı Tasarım ve İlişki Analizi:*
