@@ -1,4 +1,4 @@
-# 🍃 Taze Kalsın: Akıllı Gıda Takip ve İndirim Platformu
+# 🍃 Cepte Kalsın: Akıllı Gıda Takip ve İndirim Platformu
 
 Bu depo, İstanbul Arel Üniversitesi "Yazılım Gereksinim Analizi" ve "Çevik Yazılım Yaklaşımları" dersleri kapsamında geliştirilen *Taze Kalsın* projesinin resmi 1. Sprint Analiz ve Mimari Raporunu içermektedir.
 
