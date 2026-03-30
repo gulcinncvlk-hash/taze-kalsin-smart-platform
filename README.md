@@ -5,7 +5,7 @@ Bu depo, İstanbul Arel Üniversitesi "Yazılım Gereksinim Analizi" ve "Çevik 
 ## 🎯 Proje Vizyonu ve Problem Tanımı
 Günümüz küresel tedarik zincirinde gıda israfı, hem ekolojik bir kriz hem de devasa bir ekonomik kayıptır.Gıda perakende sektöründeki en büyük operasyonel eksikliklerden biri, raflarda bekleyen ve Son Tüketim Tarihi (S.T.T.) yaklaşan ürünlerin dijital olarak izlenememesi ve etkin bir şekilde yönetilememesidir.Bu durum, satıcılar için doğrudan sermaye kaybı yaratırken, ürünlerin çöpe gitmesine neden olmaktadır.
 
-*Taze Kalsın*, bu probleme dijital ve çevik bir çözüm sunar. Platformumuz; S.T.T.'si yaklaşan ürünleri tespit ederek marketlerin "Flash İndirimler" düzenlemesini sağlarken, tüketicilere anlık lokasyon bazlı bildirimler göndererek israfı önlemeyi ve fırsat eşitliği yaratmayı hedefler.
+Cepte Kalsın, bu probleme dijital ve çevik bir çözüm sunar. Platformumuz; S.T.T.'si yaklaşan ürünleri tespit ederek marketlerin "Flash İndirimler" düzenlemesini sağlarken, tüketicilere anlık lokasyon bazlı bildirimler göndererek israfı önlemeyi ve fırsat eşitliği yaratmayı hedefler.
 
 ## 👥 Geliştirme Takımı ve Agile Rol Dağılımı
 Projemiz, Scrum çerçevesi temel alınarak Çevik (Agile) prensiplerle yürütülmektedir.
