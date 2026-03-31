@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cepte Kalsın – Yeni Ekranlar (Use Case v1)</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & BASE ─────────────────────────────── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --green:       #1D9E75;
+  --green-dark:  #0F6E56;
+  --green-xdark: #094a3a;
+  --green-light: #E8F8F2;
+  --green-mid:   #B2E8D4;
+  --red:         #E74C3C;
+  --orange:      #F39C12;
+  --blue:        #1D4ED8;
+  --blue-light:  #EFF6FF;
+  --ink:         #111827;
+  --ink-2:       #374151;
+  --ink-3:       #6B7280;
+  --ink-4:       #9CA3AF;
+  --ink-5:       #D1D5DB;
+  --surface:     #FFFFFF;
+  --bg:          #F1F5F2;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.07);
+}
+body {
+  background: var(--bg);
+  font-family: 'Nunito', sans-serif;
+  min-height: 100vh;
+  padding: 48px 24px 80px;
+  color: var(--ink);
+}
+
+/* ── PAGE HEADER ──────────────────────────────── */
+.page-header { text-align: center; margin-bottom: 56px; }
+.page-header-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--green-light); color: var(--green-dark);
+  font-size: 11px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; padding: 6px 16px; border-radius: 100px;
+  margin-bottom: 16px; border: 1px solid var(--green-mid);
+}
+.page-header h1 { font-size: 32px; font-weight: 900; color: var(--ink); margin-bottom: 8px; }
+.page-header h1 span { color: var(--green); }
+.page-header p { font-size: 14px; color: var(--ink-3); }
+
+/* ── SECTION LABEL ────────────────────────────── */
+.section-label {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 11px; font-weight: 800; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--ink-4);
+  margin-bottom: 28px; margin-top: 8px;
+}
+.section-label::before, .section-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--ink-5);
+}
+
+/* ── SCREENS ROW ──────────────────────────────── */
+.screens {
+  display: flex; gap: 28px; flex-wrap: wrap;
+  justify-content: center; align-items: flex-start;
+  margin-bottom: 64px;
+}
+
+/* ── PHONE FRAME ──────────────────────────────── */
+.phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.screen-name {
+  font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--ink-4);
+  background: var(--surface); padding: 5px 14px;
+  border-radius: 100px; border: 1px solid var(--ink-5);
+}
+.phone {
+  width: 285px;
+  background: var(--surface);
+  border-radius: 44px;
+  border: 2px solid rgba(0,0,0,0.06);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.13), 0 4px 16px rgba(0,0,0,0.05);
+  overflow: hidden;
+  position: relative;
+  min-height: 600px;
+}
+.notch {
+  width: 88px; height: 28px;
+  background: #111; border-radius: 0 0 18px 18px;
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  z-index: 20;
+}
+.status-bar {
+  background: transparent; padding: 10px 22px 4px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px; font-weight: 800; color: #222;
+  position: relative; z-index: 10;
+}
+.status-bar.white { color: #fff; }
+
+/* ── TAB BAR ──────────────────────────────────── */
+.tab-bar {
+  display: flex; background: var(--surface);
+  border-top: 1px solid rgba(0,0,0,0.06);
+  padding: 8px 0 12px;
+}
+.tab {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 3px; position: relative;
+}
+.tab-icon { font-size: 20px; }
+.tab-label { font-size: 9px; font-weight: 800; color: var(--ink-4); letter-spacing: 0.3px; }
+.tab.active .tab-label { color: var(--green); }
+.tab-active-bar {
+  position: absolute; bottom: -12px; left: 50%;
+  transform: translateX(-50%); width: 20px; height: 3px;
+  background: var(--green); border-radius: 100px;
+}
+
+/* ── WEB SECTION ──────────────────────────────── */
+.web-section { margin: 0 -24px; padding: 0 0 80px; }
+.browser-frame {
+  width: 100%; background: var(--surface);
+  border-radius: 12px; border: 2px solid rgba(0,0,0,0.07);
+  box-shadow: 0 24px 80px rgba(0,0,0,0.1); overflow: hidden;
+}
+.browser-bar {
+  background: #F5F5F5; border-bottom: 1.5px solid #E8E8E8;
+  padding: 10px 16px; display: flex; align-items: center; gap: 12px;
+}
+.browser-dots { display: flex; gap: 7px; }
+.browser-dot { width: 13px; height: 13px; border-radius: 50%; }
+.browser-url {
+  flex: 1; background: var(--surface);
+  border: 1px solid #E0E0E0; border-radius: 9px;
+  padding: 6px 14px; font-size: 12px; color: #888;
+}
+.dashboard { display: flex; min-height: 640px; overflow: hidden; }
+
+/* ── SIDEBAR ──────────────────────────────────── */
+.sidebar {
+  width: 260px; background: #111C24; flex-shrink: 0;
+  display: flex; flex-direction: column;
+}
+.sidebar-logo { padding: 22px 20px 18px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.sidebar-logo-wrap { display: flex; align-items: center; gap: 10px; }
+.sidebar-logo-icon {
+  width: 36px; height: 36px; background: rgba(29,158,117,0.2);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.sidebar-logo-title { font-size: 15px; font-weight: 900; color: #fff; }
+.sidebar-logo-sub { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 1px; }
+.sidebar-store {
+  padding: 12px 16px; margin: 14px 14px 8px;
+  background: rgba(29,158,117,0.12); border-radius: 12px;
+  border: 1px solid rgba(29,158,117,0.2);
+}
+.sidebar-store-label { font-size: 9px; color: rgba(255,255,255,0.35); font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 3px; }
+.sidebar-store-name { font-size: 13px; font-weight: 800; color: #1D9E75; }
+.sidebar-menu-section {
+  font-size: 9px; font-weight: 800; color: rgba(255,255,255,0.25);
+  letter-spacing: 1.5px; text-transform: uppercase; padding: 12px 20px 6px;
+}
+.menu-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px; font-size: 13px;
+  color: rgba(255,255,255,0.45); font-weight: 700; cursor: pointer; position: relative;
+}
+.menu-item.active {
+  color: #fff; background: rgba(29,158,117,0.15);
+  border-right: 3px solid var(--green);
+}
+.menu-icon { font-size: 16px; }
+.menu-badge {
+  margin-left: auto; background: var(--red); color: #fff;
+  font-size: 9px; font-weight: 900; padding: 2px 7px; border-radius: 100px;
+}
+.sidebar-footer { margin-top: auto; padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.06); }
+.sidebar-logout { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.3); font-weight: 700; }
+
+/* ── MAIN CONTENT ─────────────────────────────── */
+.main-content { flex: 1; background: #F5F7F5; padding: 26px; overflow-y: auto; }
+.main-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.main-title { font-size: 24px; font-weight: 900; color: var(--ink); }
+.main-sub { font-size: 13px; color: var(--ink-3); margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+.main-sub .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; display: inline-block; }
+.btn-green {
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
+  color: #fff; font-weight: 900; font-size: 13px;
+  padding: 11px 22px; border-radius: 12px;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 4px 16px rgba(29,158,117,0.35); cursor: pointer;
+}
+.btn-outline {
+  background: var(--surface); color: var(--ink-2); font-weight: 800; font-size: 13px;
+  padding: 11px 18px; border-radius: 12px;
+  border: 1.5px solid var(--ink-5); display: flex; align-items: center; gap: 8px;
+}
+.card {
+  background: var(--surface); border-radius: 16px;
+  border: 1.5px solid rgba(0,0,0,0.05);
+  box-shadow: var(--card-shadow);
+}
+.badge { display: inline-block; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 7px; }
+.badge-green { background: var(--green-light); color: var(--green-dark); }
+.badge-orange { background: #FFF8E8; color: #C07000; }
+.badge-red { background: #FFF0F0; color: var(--red); }
+.badge-blue { background: var(--blue-light); color: var(--blue); }
+.badge-gray { background: #F3F4F6; color: var(--ink-3); }
+
+/* ════════════════════════════════════════════════
+   USE CASE 1 — REZERVASYON / KISA SÜRELİ AYIR
+   ════════════════════════════════════════════════ */
+
+/* Rezerve butonu on product detail */
+.reserve-banner {
+  margin: 0 14px 12px;
+  background: linear-gradient(135deg, #1D4ED8, #1e3a8a);
+  border-radius: 18px; padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: 0 6px 20px rgba(29,78,216,0.25);
+}
+.reserve-banner-icon { font-size: 28px; flex-shrink: 0; }
+.reserve-banner-title { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 2px; }
+.reserve-banner-sub { font-size: 11px; color: rgba(255,255,255,0.65); }
+.reserve-banner-btn {
+  margin-left: auto; background: rgba(255,255,255,0.2);
+  border: 1.5px solid rgba(255,255,255,0.3);
+  border-radius: 10px; padding: 8px 14px;
+  font-size: 12px; font-weight: 900; color: #fff; flex-shrink: 0;
+}
+
+/* Reservation confirmation screen */
+.reserve-confirm-header {
+  background: linear-gradient(155deg, #1D4ED8, #1e3a8a);
+  padding: 20px 18px 28px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.reserve-confirm-header::after {
+  content: ''; position: absolute; top: -40px; right: -40px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.reserve-product-card {
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  border-radius: 16px; padding: 14px;
+  display: flex; gap: 12px; align-items: center;
+  margin-bottom: 16px; backdrop-filter: blur(8px);
+}
+.reserve-product-img {
+  width: 52px; height: 52px; background: rgba(255,255,255,0.2);
+  border-radius: 14px; display: flex; align-items: center;
+  justify-content: center; font-size: 28px; flex-shrink: 0;
+}
+.reserve-product-name { font-size: 15px; font-weight: 900; color: #fff; margin-bottom: 2px; }
+.reserve-product-store { font-size: 11px; color: rgba(255,255,255,0.65); margin-bottom: 6px; }
+.reserve-timer-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 100px; padding: 4px 10px;
+  font-size: 11px; font-weight: 900; color: #fff;
+}
+.reserve-headline { font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+.reserve-subline { font-size: 12px; color: rgba(255,255,255,0.65); }
+
+.reserve-body { padding: 16px; }
+.reserve-timer-card {
+  background: #FFF8E8; border: 1.5px solid #FDE68A;
+  border-radius: 16px; padding: 14px 16px;
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 14px;
+}
+.reserve-timer-clock { font-size: 32px; flex-shrink: 0; }
+.reserve-timer-label { font-size: 11px; font-weight: 800; color: #92400E; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.reserve-timer-count { font-size: 26px; font-weight: 900; color: #92400E; letter-spacing: 2px; }
+.reserve-timer-sub { font-size: 10px; color: #B45309; font-weight: 600; margin-top: 2px; }
+
+.reserve-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.reserve-step {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: #F7F9F8; border-radius: 13px; padding: 12px 14px;
+  border: 1.5px solid var(--ink-5);
+}
+.reserve-step.done { background: var(--green-light); border-color: var(--green-mid); }
+.reserve-step-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--ink-5); color: var(--ink-3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 900; flex-shrink: 0;
+}
+.reserve-step.done .reserve-step-num { background: var(--green); color: #fff; }
+.reserve-step-title { font-size: 12px; font-weight: 900; color: var(--ink); margin-bottom: 2px; }
+.reserve-step.done .reserve-step-title { color: var(--green-dark); }
+.reserve-step-desc { font-size: 10px; color: var(--ink-3); line-height: 1.4; font-weight: 600; }
+
+.reserve-cta-row { display: flex; gap: 10px; }
+.reserve-cancel-btn {
+  flex: 1; padding: 13px; border: 1.5px solid var(--ink-5);
+  border-radius: 14px; text-align: center;
+  font-size: 13px; font-weight: 800; color: var(--ink-3);
+}
+.reserve-goto-btn {
+  flex: 2; padding: 13px;
+  background: linear-gradient(135deg, #1D4ED8, #1e3a8a);
+  border-radius: 14px; text-align: center;
+  font-size: 13px; font-weight: 900; color: #fff;
+  box-shadow: 0 6px 20px rgba(29,78,216,0.3);
+}
+
+/* QR Code */
+.reserve-qr-card {
+  background: var(--surface); border: 1.5px solid rgba(0,0,0,0.05);
+  border-radius: 16px; padding: 14px 16px;
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 14px;
+  box-shadow: var(--card-shadow);
+}
+.qr-grid {
+  width: 58px; height: 58px; flex-shrink: 0;
+  display: grid; grid-template-columns: repeat(7,1fr);
+  grid-template-rows: repeat(7,1fr); gap: 1px;
+  background: var(--ink);
+}
+.qr-cell { background: var(--ink); }
+.qr-cell.w { background: #fff; }
+
+
+/* ════════════════════════════════════════════════
+   USE CASE 2 — SON ŞANS PAKETİ (Tüketici + Market)
+   ════════════════════════════════════════════════ */
+
+.son-sans-header {
+  background: linear-gradient(155deg, #7C3AED, #4C1D95);
+  padding: 14px 18px 20px; position: relative; overflow: hidden;
+}
+.son-sans-header::after {
+  content: ''; position: absolute; top: -40px; right: -40px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.son-sans-title-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+.son-sans-page-title { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 3px; }
+.son-sans-page-sub { font-size: 12px; color: rgba(255,255,255,0.6); }
+.son-sans-countdown {
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 12px; padding: 8px 12px; text-align: center;
+  flex-shrink: 0;
+}
+.son-sans-countdown-num { font-size: 20px; font-weight: 900; color: #fff; letter-spacing: 1px; }
+.son-sans-countdown-lbl { font-size: 8px; font-weight: 800; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 1px; }
+
+.son-sans-featured {
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  border-radius: 18px; padding: 14px; position: relative; z-index: 1;
+  backdrop-filter: blur(8px);
+}
+.son-sans-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #F59E0B; color: #fff;
+  font-size: 9px; font-weight: 900; letter-spacing: 1px;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 100px;
+  margin-bottom: 10px;
+}
+.son-sans-pack-row { display: flex; gap: 10px; align-items: center; }
+.son-sans-pack-icons { display: flex; gap: 4px; flex-wrap: wrap; max-width: 80px; }
+.son-sans-pack-icon {
+  width: 34px; height: 34px; background: rgba(255,255,255,0.2);
+  border-radius: 10px; display: flex; align-items: center;
+  justify-content: center; font-size: 17px;
+}
+.son-sans-pack-name { font-size: 16px; font-weight: 900; color: #fff; margin-bottom: 3px; }
+.son-sans-pack-items { font-size: 11px; color: rgba(255,255,255,0.65); margin-bottom: 8px; line-height: 1.5; }
+.son-sans-price-row { display: flex; align-items: baseline; gap: 8px; }
+.son-sans-price-new { font-size: 22px; font-weight: 900; color: #fff; }
+.son-sans-price-old { font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: line-through; }
+.son-sans-discount { background: #F59E0B; color: #fff; font-size: 11px; font-weight: 900; padding: 3px 8px; border-radius: 7px; }
+
+.son-sans-body { padding: 14px 14px 8px; }
+.son-sans-section-title { font-size: 14px; font-weight: 900; color: var(--ink); margin-bottom: 10px; }
+
+.son-sans-card {
+  background: var(--surface); border-radius: 18px;
+  border: 1.5px solid rgba(0,0,0,0.05);
+  padding: 12px 14px; margin-bottom: 10px; display: flex; gap: 12px;
+  box-shadow: var(--card-shadow);
+}
+.son-sans-card-img {
+  width: 56px; height: 56px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 27px; flex-shrink: 0;
+  background: #F3EEFF;
+}
+.son-sans-card-name { font-size: 13px; font-weight: 900; color: var(--ink); margin-bottom: 2px; }
+.son-sans-card-items { font-size: 11px; color: var(--ink-3); margin-bottom: 6px; line-height: 1.4; }
+.son-sans-card-price-row { display: flex; align-items: center; gap: 8px; }
+.son-sans-card-price { font-size: 15px; font-weight: 900; color: #7C3AED; }
+.son-sans-card-old { font-size: 11px; color: var(--ink-4); text-decoration: line-through; }
+.son-sans-card-discount { background: #F3EEFF; color: #7C3AED; font-size: 10px; font-weight: 900; padding: 2px 7px; border-radius: 6px; margin-left: auto; }
+.son-sans-buy-btn {
+  width: calc(100% - 28px); margin: 0 14px 14px;
+  background: linear-gradient(135deg, #7C3AED, #4C1D95);
+  color: #fff; font-weight: 900; font-size: 14px;
+  padding: 14px; border-radius: 14px; text-align: center;
+  box-shadow: 0 6px 20px rgba(124,58,237,0.35);
+}
+
+/* Market sahibi — Son Şans Paketi Oluştur web */
+.pack-create-card {
+  background: var(--surface); border-radius: 16px;
+  border: 1.5px solid rgba(0,0,0,0.05);
+  padding: 24px; margin-bottom: 20px;
+  box-shadow: var(--card-shadow);
+}
+.pack-create-title { font-size: 16px; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+.pack-create-sub { font-size: 12px; color: var(--ink-3); margin-bottom: 22px; }
+.pack-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+.pack-group { display: flex; flex-direction: column; gap: 6px; }
+.pack-group.full { grid-column: 1 / -1; }
+.pack-label {
+  font-size: 10px; font-weight: 800; color: var(--ink-3);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+.pack-input {
+  background: #F7F8F7; border: 1.5px solid #E8E8E8;
+  border-radius: 11px; padding: 10px 13px;
+  font-size: 13px; color: var(--ink-2);
+}
+.pack-input.focus { border-color: var(--green); background: var(--green-light); color: var(--ink); }
+.pack-input.purple { border-color: #7C3AED; background: #F3EEFF; color: #4C1D95; }
+
+/* Product add chips */
+.pack-product-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.pack-product-chip {
+  display: flex; align-items: center; gap: 7px;
+  background: #F3F4F6; border: 1.5px solid var(--ink-5);
+  border-radius: 10px; padding: 7px 12px; cursor: pointer;
+}
+.pack-product-chip.added {
+  background: var(--green-light); border-color: var(--green-mid);
+}
+.pack-product-chip-icon { font-size: 18px; }
+.pack-product-chip-name { font-size: 12px; font-weight: 800; color: var(--ink); }
+.pack-product-chip-skt { font-size: 10px; color: var(--ink-3); font-weight: 600; }
+.pack-product-chip.added .pack-product-chip-name { color: var(--green-dark); }
+.pack-product-chip-check {
+  width: 16px; height: 16px; background: var(--green);
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 9px; color: #fff; margin-left: 2px;
+}
+
+.pack-preview {
+  background: linear-gradient(135deg, #7C3AED, #4C1D95);
+  border-radius: 14px; padding: 16px; margin-bottom: 18px;
+}
+.pack-preview-title { font-size: 12px; font-weight: 800; color: rgba(255,255,255,0.6); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+.pack-preview-name { font-size: 17px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.pack-preview-items { font-size: 12px; color: rgba(255,255,255,0.65); margin-bottom: 12px; line-height: 1.5; }
+.pack-preview-price-row { display: flex; align-items: center; gap: 10px; }
+.pack-preview-new { font-size: 24px; font-weight: 900; color: #fff; }
+.pack-preview-old { font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: line-through; }
+.pack-preview-save { background: rgba(255,255,255,0.2); border-radius: 8px; padding: 4px 10px; font-size: 12px; font-weight: 900; color: #fff; }
+
+.pack-footer { display: flex; gap: 10px; justify-content: flex-end; }
+.pack-cancel-btn {
+  padding: 12px 20px; border: 1.5px solid var(--ink-5);
+  border-radius: 11px; font-size: 13px; font-weight: 800; color: var(--ink-2);
+}
+.pack-save-btn {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #7C3AED, #4C1D95);
+  border-radius: 11px; font-size: 13px; font-weight: 900; color: #fff;
+  box-shadow: 0 4px 16px rgba(124,58,237,0.3);
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* ════════════════════════════════════════════════
+   USE CASE 3 — QR/PIN SATIŞ DOĞRULAMA
+   ════════════════════════════════════════════════ */
+
+/* Market sahibi web — QR scanner */
+.qr-scanner-card {
+  background: var(--surface); border-radius: 16px;
+  border: 1.5px solid rgba(0,0,0,0.05);
+  padding: 24px; margin-bottom: 20px;
+  box-shadow: var(--card-shadow);
+}
+.qr-scanner-title { font-size: 16px; font-weight: 900; color: var(--ink); margin-bottom: 4px; }
+.qr-scanner-sub { font-size: 12px; color: var(--ink-3); margin-bottom: 22px; }
+
+.qr-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+.qr-cam-box {
+  background: #111; border-radius: 16px;
+  aspect-ratio: 1; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.qr-cam-grid {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.qr-cam-corners {
+  position: absolute; inset: 20px;
+}
+.qr-cam-corner {
+  position: absolute; width: 28px; height: 28px; border-color: var(--green);
+  border-style: solid;
+}
+.qr-cam-corner.tl { top: 0; left: 0; border-width: 3px 0 0 3px; border-radius: 4px 0 0 0; }
+.qr-cam-corner.tr { top: 0; right: 0; border-width: 3px 3px 0 0; border-radius: 0 4px 0 0; }
+.qr-cam-corner.bl { bottom: 0; left: 0; border-width: 0 0 3px 3px; border-radius: 0 0 0 4px; }
+.qr-cam-corner.br { bottom: 0; right: 0; border-width: 0 3px 3px 0; border-radius: 0 0 4px 0; }
+.qr-scan-line {
+  position: absolute; left: 24px; right: 24px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  top: 50%;
+}
+.qr-cam-label { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.6); white-space: nowrap; }
+
+.qr-or-divider {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 10px; padding: 0 4px;
+}
+.qr-or-line { flex: 1; width: 1px; background: var(--ink-5); }
+.qr-or-text { font-size: 11px; color: var(--ink-4); font-weight: 800; }
+
+.qr-pin-side { display: flex; flex-direction: column; gap: 14px; }
+.qr-pin-label { font-size: 10px; font-weight: 800; color: var(--ink-3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+.qr-pin-boxes { display: flex; gap: 8px; }
+.qr-pin-box {
+  flex: 1; height: 52px; background: #F7F8F7;
+  border: 1.5px solid var(--ink-5); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 900; color: var(--ink);
+}
+.qr-pin-box.filled { background: var(--green-light); border-color: var(--green); color: var(--green-dark); }
+.qr-pin-box.active { border-color: var(--green); box-shadow: 0 0 0 3px rgba(29,158,117,0.15); }
+
+.qr-manual-input {
+  background: #F7F8F7; border: 1.5px solid #E8E8E8;
+  border-radius: 11px; padding: 11px 14px;
+  font-size: 13px; color: var(--ink-2); width: 100%;
+}
+
+/* Confirmed state */
+.qr-confirm-card {
+  background: var(--green-light); border: 1.5px solid var(--green-mid);
+  border-radius: 16px; padding: 20px; margin-bottom: 16px;
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.qr-confirm-icon { font-size: 40px; flex-shrink: 0; }
+.qr-confirm-title { font-size: 16px; font-weight: 900; color: var(--green-dark); margin-bottom: 4px; }
+.qr-confirm-sub { font-size: 12px; color: var(--green); font-weight: 700; margin-bottom: 10px; }
+.qr-confirm-details { display: flex; flex-direction: column; gap: 5px; }
+.qr-confirm-row { display: flex; gap: 8px; align-items: center; }
+.qr-confirm-lbl { font-size: 11px; color: var(--ink-3); font-weight: 700; width: 80px; flex-shrink: 0; }
+.qr-confirm-val { font-size: 12px; font-weight: 900; color: var(--ink); }
+
+.qr-recent-table { width: 100%; border-collapse: collapse; }
+.qr-recent-table th {
+  padding: 10px 14px; font-size: 10px; font-weight: 800;
+  color: var(--ink-4); letter-spacing: 1px; text-transform: uppercase;
+  text-align: left; border-bottom: 1.5px solid #F0F0F0;
+  background: #FAFAFA;
+}
+.qr-recent-table td {
+  padding: 11px 14px; font-size: 12px; color: var(--ink-2);
+  border-bottom: 1px solid #F5F5F5; vertical-align: middle;
+}
+
+/* Tüketici — rezervasyon QR göster */
+.my-reserve-header { padding: 16px 16px 6px; }
+.my-reserve-title { font-size: 20px; font-weight: 900; color: var(--ink); margin-bottom: 3px; }
+.my-reserve-sub { font-size: 12px; color: var(--ink-3); }
+
+.my-reserve-card {
+  margin: 0 14px 10px;
+  background: var(--surface); border-radius: 18px;
+  border: 1.5px solid rgba(0,0,0,0.05);
+  overflow: hidden; box-shadow: var(--card-shadow);
+}
+.my-reserve-top {
+  background: linear-gradient(135deg, #1D4ED8, #1e3a8a);
+  padding: 14px 14px 10px;
+}
+.my-reserve-store { font-size: 13px; font-weight: 900; color: #fff; margin-bottom: 2px; }
+.my-reserve-product { font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+.my-reserve-status-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 100px; padding: 4px 10px;
+  font-size: 10px; font-weight: 900; color: #fff;
+}
+.my-reserve-body { padding: 14px; }
+.my-reserve-qr-area { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 14px; }
+.my-reserve-qr-box {
+  width: 110px; height: 110px; background: #F7F8F7;
+  border: 2px solid var(--ink-5); border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.qr-big {
+  width: 90px; height: 90px;
+  display: grid; grid-template-columns: repeat(9,1fr);
+  grid-template-rows: repeat(9,1fr); gap: 1.5px;
+  background: var(--ink);
+}
+.qb { background: var(--ink); }
+.qb.w { background: #fff; }
+
+.my-reserve-pin {
+  font-size: 24px; font-weight: 900; color: var(--ink);
+  letter-spacing: 5px; background: var(--green-light);
+  border-radius: 10px; padding: 8px 20px;
+}
+.my-reserve-pin-label { font-size: 10px; font-weight: 800; color: var(--ink-4); text-transform: uppercase; letter-spacing: 1px; }
+
+.my-reserve-info { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.my-reserve-info-item {
+  background: #F7F9F8; border-radius: 12px; padding: 10px 12px;
+  border: 1.5px solid var(--ink-5);
+}
+.my-reserve-info-lbl { font-size: 9px; font-weight: 800; color: var(--ink-4); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+.my-reserve-info-val { font-size: 13px; font-weight: 900; color: var(--ink); }
+
+.my-reserve-timer {
+  background: #FFF8E8; border: 1.5px solid #FDE68A;
+  border-radius: 12px; padding: 10px 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.my-reserve-timer-text { font-size: 12px; font-weight: 800; color: #92400E; }
+.my-reserve-timer-count { font-size: 15px; font-weight: 900; color: #92400E; margin-left: auto; }
+
+/* ════════════════════════════════════════════════
+   USE CASE 4 — ÇEVRESEL ETKİ RAPORU (Tüketici)
+   ════════════════════════════════════════════════ */
+
+.eco-header {
+  background: linear-gradient(155deg, #059669, #065F46);
+  padding: 20px 18px 24px; position: relative; overflow: hidden;
+}
+.eco-header::before {
+  content: ''; position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.eco-header::after {
+  content: ''; position: absolute; bottom: -40px; left: -40px;
+  width: 150px; height: 150px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.eco-title-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+.eco-title { font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 2px; }
+.eco-sub { font-size: 11px; color: rgba(255,255,255,0.6); }
+.eco-share-btn {
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 10px; padding: 7px 12px;
+  font-size: 11px; font-weight: 800; color: #fff;
+  position: relative; z-index: 1;
+}
+.eco-hero-stat {
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  border-radius: 18px; padding: 16px;
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 14px; position: relative; z-index: 1;
+}
+.eco-hero-icon { font-size: 40px; flex-shrink: 0; }
+.eco-hero-num { font-size: 32px; font-weight: 900; color: #fff; line-height: 1; margin-bottom: 3px; }
+.eco-hero-label { font-size: 12px; color: rgba(255,255,255,0.65); font-weight: 700; }
+.eco-hero-sub { font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 2px; font-weight: 600; }
+
+.eco-stats-row {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px; position: relative; z-index: 1;
+}
+.eco-mini-stat {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 13px; padding: 10px 8px; text-align: center;
+}
+.eco-mini-icon { font-size: 18px; margin-bottom: 4px; }
+.eco-mini-num { font-size: 16px; font-weight: 900; color: #fff; margin-bottom: 2px; }
+.eco-mini-lbl { font-size: 9px; color: rgba(255,255,255,0.55); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.eco-body { padding: 14px; }
+
+/* Progress rings / bars */
+.eco-impact-card {
+  background: var(--surface); border-radius: 18px;
+  border: 1.5px solid rgba(0,0,0,0.05);
+  padding: 14px 16px; margin-bottom: 10px;
+  box-shadow: var(--card-shadow);
+}
+.eco-impact-title { font-size: 13px; font-weight: 900; color: var(--ink); margin-bottom: 12px; }
+.eco-bar-row { display: flex; flex-direction: column; gap: 10px; }
+.eco-bar-item { display: flex; flex-direction: column; gap: 5px; }
+.eco-bar-header { display: flex; justify-content: space-between; align-items: center; }
+.eco-bar-label { font-size: 11px; font-weight: 800; color: var(--ink-2); }
+.eco-bar-val { font-size: 11px; font-weight: 900; color: var(--green); }
+.eco-bar-track { height: 8px; background: #F3F4F6; border-radius: 100px; overflow: hidden; }
+.eco-bar-fill { height: 100%; border-radius: 100px; }
+
+/* Achievement badges */
+.eco-badges-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.eco-badge-item {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  background: var(--surface); border-radius: 14px;
+  border: 1.5px solid var(--ink-5);
+  padding: 10px 12px; flex: 1; min-width: 60px;
+  box-shadow: var(--card-shadow);
+}
+.eco-badge-icon { font-size: 24px; }
+.eco-badge-name { font-size: 9px; font-weight: 800; color: var(--ink-3); text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.eco-badge-item.earned {
+  background: var(--green-light); border-color: var(--green-mid);
+}
+.eco-badge-item.earned .eco-badge-name { color: var(--green-dark); }
+
+/* Monthly history */
+.eco-month-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid #F5F5F5;
+}
+.eco-month-row:last-child { border-bottom: none; }
+.eco-month-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+.eco-month-name { font-size: 12px; font-weight: 800; color: var(--ink); flex: 1; }
+.eco-month-kg { font-size: 12px; font-weight: 900; color: var(--green); }
+
+/* ════════════════════════════════════════════════
+   USE CASE 5 — MARKET BAŞVURU ONAY/RED (Admin)
+   ════════════════════════════════════════════════ */
+
+/* Admin panel — different theme */
+.admin-main { flex: 1; background: #F5F7F5; padding: 26px; overflow-y: auto; }
+
+.admin-topbar {
+  background: var(--surface); border-bottom: 1.5px solid rgba(0,0,0,0.06);
+  padding: 14px 26px; display: flex; justify-content: space-between; align-items: center;
+}
+.admin-topbar-title { font-size: 14px; font-weight: 900; color: var(--ink); }
+.admin-topbar-user { display: flex; align-items: center; gap: 10px; }
+.admin-topbar-avatar {
+  width: 32px; height: 32px; background: var(--green-light);
+  border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 15px;
+}
+.admin-topbar-name { font-size: 12px; font-weight: 800; color: var(--ink); }
+.admin-topbar-role { font-size: 10px; color: var(--ink-3); font-weight: 600; }
+
+.admin-panel { display: flex; min-height: 700px; overflow: hidden; }
+
+.admin-sidebar {
+  width: 240px; background: #0D1B2A; flex-shrink: 0;
+  display: flex; flex-direction: column;
+}
+.admin-sidebar-logo { padding: 20px 18px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.admin-sidebar-brand { display: flex; align-items: center; gap: 10px; }
+.admin-sidebar-icon {
+  width: 34px; height: 34px; background: rgba(29,158,117,0.25);
+  border-radius: 9px; display: flex; align-items: center;
+  justify-content: center; font-size: 17px;
+}
+.admin-sidebar-title { font-size: 14px; font-weight: 900; color: #fff; }
+.admin-sidebar-sub { font-size: 9px; color: rgba(255,255,255,0.3); margin-top: 1px; }
+.admin-role-chip {
+  margin: 10px 14px;
+  background: rgba(239,68,68,0.15);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 8px; padding: 7px 12px;
+}
+.admin-role-label { font-size: 8px; color: rgba(255,255,255,0.35); font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 2px; }
+.admin-role-name { font-size: 12px; font-weight: 800; color: #F87171; }
+.admin-menu-section { font-size: 9px; font-weight: 800; color: rgba(255,255,255,0.2); letter-spacing: 1.5px; text-transform: uppercase; padding: 12px 18px 6px; }
+.admin-menu-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 18px; font-size: 12px;
+  color: rgba(255,255,255,0.4); font-weight: 700; cursor: pointer;
+}
+.admin-menu-item.active {
+  color: #fff; background: rgba(239,68,68,0.12);
+  border-right: 3px solid #EF4444;
+}
+.admin-menu-badge {
+  margin-left: auto; background: #EF4444; color: #fff;
+  font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 100px;
+}
+.admin-sidebar-footer { margin-top: auto; padding: 14px 18px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+.admin-content { flex: 1; background: #F7F8F7; padding: 24px; overflow-y: auto; }
+.admin-content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+.admin-content-title { font-size: 22px; font-weight: 900; color: var(--ink); }
+.admin-content-sub { font-size: 12px; color: var(--ink-3); margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+
+/* Application cards */
+.app-filter-row { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.app-filter-chip {
+  font-size: 11px; font-weight: 800;
+  padding: 7px 14px; border-radius: 100px;
+  border: 1.5px solid var(--ink-5); color: var(--ink-3);
+  background: var(--surface); cursor: pointer;
+}
+.app-filter-chip.active { background: #FFF0F0; color: var(--red); border-color: #FECACA; }
+.app-filter-chip.approved { background: var(--green-light); color: var(--green-dark); border-color: var(--green-mid); }
+.app-filter-chip.all { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+.app-card {
+  background: var(--surface); border-radius: 16px;
+  border: 1.5px solid rgba(0,0,0,0.05);
+  padding: 20px; margin-bottom: 14px;
+  box-shadow: var(--card-shadow);
+}
+.app-card-header { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
+.app-market-icon {
+  width: 52px; height: 52px; background: var(--green-light);
+  border-radius: 14px; display: flex; align-items: center;
+  justify-content: center; font-size: 26px; flex-shrink: 0;
+}
+.app-market-name { font-size: 16px; font-weight: 900; color: var(--ink); margin-bottom: 3px; }
+.app-market-meta { font-size: 12px; color: var(--ink-3); margin-bottom: 8px; }
+.app-status-row { display: flex; gap: 8px; align-items: center; }
+.app-status-badge {
+  font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 7px;
+}
+.app-status-badge.pending { background: #FFF8E8; color: #C07000; }
+.app-status-badge.new { background: var(--blue-light); color: var(--blue); }
+
+.app-info-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px; margin-bottom: 16px;
+}
+.app-info-item {
+  background: #F7F8F7; border-radius: 11px; padding: 10px 12px;
+  border: 1.5px solid #EEEEEE;
+}
+.app-info-lbl { font-size: 9px; font-weight: 800; color: var(--ink-4); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+.app-info-val { font-size: 13px; font-weight: 900; color: var(--ink); }
+
+/* Document checklist */
+.app-docs { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+.app-doc-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 10px;
+  background: #F7F8F7; border: 1.5px solid #EEEEEE;
+}
+.app-doc-row.ok { background: var(--green-light); border-color: var(--green-mid); }
+.app-doc-row.warn { background: #FFF8E8; border-color: #FDE68A; }
+.app-doc-icon { font-size: 15px; flex-shrink: 0; }
+.app-doc-name { font-size: 12px; font-weight: 800; color: var(--ink); flex: 1; }
+.app-doc-status {
+  font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 6px;
+}
+.app-doc-row.ok .app-doc-status { background: rgba(29,158,117,0.15); color: var(--green-dark); }
+.app-doc-row.warn .app-doc-status { background: #FEF3C7; color: #92400E; }
+
+/* Action buttons */
+.app-action-row { display: flex; gap: 10px; }
+.app-reject-btn {
+  flex: 1; padding: 12px; border: 1.5px solid #FECACA;
+  border-radius: 12px; text-align: center;
+  font-size: 13px; font-weight: 800; color: var(--red);
+  background: #FFF5F5; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.app-review-btn {
+  flex: 1; padding: 12px; border: 1.5px solid var(--ink-5);
+  border-radius: 12px; text-align: center;
+  font-size: 13px; font-weight: 800; color: var(--ink-2);
+  background: var(--surface); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.app-approve-btn {
+  flex: 2; padding: 12px;
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
+  border-radius: 12px; text-align: center;
+  font-size: 13px; font-weight: 900; color: #fff;
+  box-shadow: 0 4px 16px rgba(29,158,117,0.3); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+
+/* Approved confirmation state */
+.app-approved-banner {
+  background: var(--green-light); border: 1.5px solid var(--green-mid);
+  border-radius: 14px; padding: 16px 18px;
+  display: flex; gap: 14px; align-items: center; margin-bottom: 14px;
+}
+.app-approved-icon { font-size: 36px; flex-shrink: 0; }
+.app-approved-title { font-size: 15px; font-weight: 900; color: var(--green-dark); margin-bottom: 3px; }
+.app-approved-sub { font-size: 12px; color: var(--green); font-weight: 700; }
+
+/* Stats row */
+.admin-stat-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 14px; margin-bottom: 20px;
+}
+.admin-stat-card {
+  background: var(--surface); border-radius: 14px;
+  border: 1.5px solid rgba(0,0,0,0.05);
+  padding: 16px; box-shadow: var(--card-shadow);
+}
+.admin-stat-icon { font-size: 22px; margin-bottom: 10px; }
+.admin-stat-num { font-size: 26px; font-weight: 900; color: var(--ink); margin-bottom: 2px; }
+.admin-stat-num.red { color: var(--red); }
+.admin-stat-num.green { color: var(--green); }
+.admin-stat-num.orange { color: var(--orange); }
+.admin-stat-lbl { font-size: 11px; color: var(--ink-3); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- ── PAGE HEADER ─────────────────────────────── -->
+<div class="page-header">
+  <div class="page-header-badge">🛒 &nbsp;Use Case Ekranları — v1</div>
+  <h1>Cepte <span>Kalsın</span></h1>
+  <p>Kullanım Senaryosu Odaklı Yeni Ekranlar &nbsp;·&nbsp; Use Case Diyagramına Göre</p>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     📱 USE CASE 1 — REZERVASYON / KISA SÜRELİ AYIR
+═══════════════════════════════════════════════ -->
+<div class="section-label">📱 UC-1 · Ürünü Kısa Süreli Ayır (Rezervasyon) — Tüketici</div>
+<div class="screens">
+
+  <!-- EKRAN 1: Ürün detayında Rezerve Et butonu -->
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="status-bar"><span style="margin-top:20px">9:41</span><span style="margin-top:20px">●●●</span></div>
+
+      <!-- product detail header -->
+      <div style="background:linear-gradient(155deg,#1D9E75,#0D5C45);padding:12px 16px 16px;position:relative;overflow:hidden">
+        <div style="height:10px"></div>
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px">
+          <div style="width:74px;height:74px;background:rgba(255,255,255,0.15);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:38px;border:1.5px solid rgba(255,255,255,0.2)">🥛</div>
+          <div>
+            <div style="font-size:17px;font-weight:900;color:#fff;margin-bottom:3px">Süt 1L</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-bottom:7px">A101 Saadetdere Şubesi</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <span style="font-size:18px;font-weight:900;color:#fff">₺15</span>
+              <span style="font-size:12px;color:rgba(255,255,255,0.5);text-decoration:line-through">₺25</span>
+              <span style="background:rgba(255,255,255,0.2);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:900;color:#fff">%40 İndirim</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <div style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:9px;padding:6px 10px;font-size:10px;font-weight:800;color:rgba(255,255,255,0.8)">⏰ 2 gün kaldı</div>
+          <div style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:9px;padding:6px 10px;font-size:10px;font-weight:800;color:rgba(255,255,255,0.8)">📦 10 adet stok</div>
+          <div style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:9px;padding:6px 10px;font-size:10px;font-weight:800;color:rgba(255,255,255,0.8)">📍 1.2 km</div>
+        </div>
+      </div>
+
+      <!-- Reserve banner — highlighted -->
+      <div class="reserve-banner">
+        <div class="reserve-banner-icon">🔒</div>
+        <div>
+          <div class="reserve-banner-title">Hemen Ayır, Sonra Al!</div>
+          <div class="reserve-banner-sub">2 saatliğine senindir · Ücretsiz</div>
+        </div>
+        <div class="reserve-banner-btn">Ayır →</div>
+      </div>
+
+      <div style="padding:0 14px">
+        <div style="font-size:13px;font-weight:900;color:var(--ink);margin-bottom:8px">Ürün Açıklaması</div>
+        <div style="font-size:12px;color:var(--ink-3);line-height:1.6;margin-bottom:12px">Günlük taze süt, 1 litre. Son kullanma tarihi 2 gün sonra. Şube rafından soğuk olarak teslim alınabilir.</div>
+
+        <div style="font-size:13px;font-weight:900;color:var(--ink);margin-bottom:8px">Şube Bilgisi</div>
+        <div style="background:var(--surface);border:1.5px solid rgba(0,0,0,0.05);border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:center;margin-bottom:12px;box-shadow:var(--card-shadow)">
+          <div style="font-size:22px">🏪</div>
+          <div>
+            <div style="font-size:12px;font-weight:900;color:var(--ink)">A101 Saadetdere</div>
+            <div style="font-size:11px;color:var(--ink-3)">Saadetdere Mah. Atatürk Cad. · 1.2 km</div>
+          </div>
+          <div style="margin-left:auto;font-size:11px;font-weight:800;color:var(--green)">Yol Tarifi →</div>
+        </div>
+      </div>
+
+      <div style="padding:0 14px 14px;display:flex;gap:10px">
+        <div style="width:48px;height:48px;background:var(--surface);border:1.5px solid var(--ink-5);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">❤️</div>
+        <div style="flex:1;background:linear-gradient(135deg,#1a6cdb,#0f44a8);color:#fff;font-weight:900;font-size:13px;padding:14px;border-radius:14px;text-align:center;box-shadow:0 6px 20px rgba(26,108,219,0.3)">🛒 &nbsp;Sepete Ekle</div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab"><div class="tab-icon">🏠</div><div class="tab-label">Ana Sayfa</div></div>
+        <div class="tab"><div class="tab-icon">🗺️</div><div class="tab-label">Harita</div></div>
+        <div class="tab"><div class="tab-icon">❤️</div><div class="tab-label">Favoriler</div></div>
+        <div class="tab"><div class="tab-icon">🔔</div><div class="tab-label">Bildirim</div></div>
+        <div class="tab"><div class="tab-icon">👤</div><div class="tab-label">Profil</div></div>
+      </div>
+    </div>
+    <div class="screen-name">Ürün Detay — Ayır</div>
+  </div>
+
+  <!-- EKRAN 2: Rezervasyon Onayı -->
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="status-bar white" style="position:absolute;top:0;width:100%;z-index:15;padding-top:10px"><span>9:41</span><span style="letter-spacing:2px">●●●</span></div>
+      <div class="reserve-confirm-header">
+        <div style="height:22px"></div>
+        <div class="reserve-product-card">
+          <div class="reserve-product-img">🥛</div>
+          <div>
+            <div class="reserve-product-name">Süt 1L</div>
+            <div class="reserve-product-store">A101 Saadetdere · 1.2 km</div>
+            <div class="reserve-timer-badge">⏰ &nbsp;Ayır — 2 Saat Geçerli</div>
+          </div>
+        </div>
+        <div class="reserve-headline">✅ Ürün Senin İçin Ayrıldı!</div>
+        <div class="reserve-subline">2 saat içinde şubeye git ve teslim al</div>
+      </div>
+
+      <div class="reserve-body">
+        <div class="reserve-timer-card">
+          <div class="reserve-timer-clock">⏱</div>
+          <div>
+            <div class="reserve-timer-label">Kalan Süre</div>
+            <div class="reserve-timer-count">01:47:23</div>
+            <div class="reserve-timer-sub">02 Nisan 2026 · 11:41'e kadar</div>
+          </div>
+        </div>
+
+        <div class="reserve-steps">
+          <div class="reserve-step done">
+            <div class="reserve-step-num">✓</div>
+            <div>
+              <div class="reserve-step-title">Rezervasyon Oluşturuldu</div>
+              <div class="reserve-step-desc">Ürün 2 saatliğine senin için ayrıldı</div>
+            </div>
+          </div>
+          <div class="reserve-step done">
+            <div class="reserve-step-num">✓</div>
+            <div>
+              <div class="reserve-step-title">Bildirim Gönderildi</div>
+              <div class="reserve-step-desc">Push bildirimi ve e-posta onayı iletildi</div>
+            </div>
+          </div>
+          <div class="reserve-step">
+            <div class="reserve-step-num">3</div>
+            <div>
+              <div class="reserve-step-title">Şubeye Git &amp; Teslim Al</div>
+              <div class="reserve-step-desc">QR kodu göster, ödeme yap, ürünü al</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reserve-qr-card">
+          <div class="reserve-qr-box" style="width:64px;height:64px;background:#F7F8F7;border:2px solid var(--ink-5);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <!-- Mini QR mockup -->
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <rect width="44" height="44" fill="white"/>
+              <rect x="2" y="2" width="16" height="16" rx="2" fill="#111"/>
+              <rect x="4" y="4" width="12" height="12" rx="1" fill="white"/>
+              <rect x="6" y="6" width="8" height="8" rx="1" fill="#111"/>
+              <rect x="26" y="2" width="16" height="16" rx="2" fill="#111"/>
+              <rect x="28" y="4" width="12" height="12" rx="1" fill="white"/>
+              <rect x="30" y="6" width="8" height="8" rx="1" fill="#111"/>
+              <rect x="2" y="26" width="16" height="16" rx="2" fill="#111"/>
+              <rect x="4" y="28" width="12" height="12" rx="1" fill="white"/>
+              <rect x="6" y="30" width="8" height="8" rx="1" fill="#111"/>
+              <rect x="20" y="20" width="4" height="4" fill="#111"/>
+              <rect x="26" y="20" width="4" height="4" fill="#111"/>
+              <rect x="32" y="20" width="6" height="4" fill="#111"/>
+              <rect x="20" y="26" width="6" height="4" fill="#111"/>
+              <rect x="30" y="26" width="4" height="4" fill="#111"/>
+              <rect x="36" y="26" width="6" height="4" fill="#111"/>
+              <rect x="20" y="32" width="4" height="4" fill="#111"/>
+              <rect x="26" y="32" width="4" height="4" fill="#111"/>
+              <rect x="32" y="32" width="4" height="4" fill="#111"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:800;color:var(--ink-4);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">Rezervasyon QR</div>
+            <div style="font-size:18px;font-weight:900;color:var(--ink);letter-spacing:3px;margin-bottom:2px">A7-4821</div>
+            <div style="font-size:10px;color:var(--ink-3);font-weight:600">Market kasasında göster</div>
+          </div>
+        </div>
+
+        <div class="reserve-cta-row">
+          <div class="reserve-cancel-btn">İptal Et</div>
+          <div class="reserve-goto-btn">🗺️ &nbsp;Yol Tarifi Al</div>
+        </div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab"><div class="tab-icon">🏠</div><div class="tab-label">Ana Sayfa</div></div>
+        <div class="tab"><div class="tab-icon">🗺️</div><div class="tab-label">Harita</div></div>
+        <div class="tab"><div class="tab-icon">❤️</div><div class="tab-label">Favoriler</div></div>
+        <div class="tab active"><div class="tab-icon">🔔</div><div class="tab-label">Bildirim</div><div class="tab-active-bar"></div></div>
+        <div class="tab"><div class="tab-icon">👤</div><div class="tab-label">Profil</div></div>
+      </div>
+    </div>
+    <div class="screen-name">Rezervasyon Onayı</div>
+  </div>
+
+  <!-- EKRAN 3: Rezervasyonlarım -->
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="status-bar"><span style="margin-top:20px">9:41</span><span style="margin-top:20px">●●●</span></div>
+
+      <div class="my-reserve-header">
+        <div style="height:8px"></div>
+        <div class="my-reserve-title">Rezervasyonlarım</div>
+        <div class="my-reserve-sub">2 aktif rezervasyon</div>
+      </div>
+
+      <!-- Active reservation -->
+      <div class="my-reserve-card">
+        <div class="my-reserve-top">
+          <div class="my-reserve-store">🏪 A101 Saadetdere</div>
+          <div class="my-reserve-product">Süt 1L &nbsp;·&nbsp; ₺15</div>
+          <div class="my-reserve-status-chip">🟢 &nbsp;Aktif — 01:47 kaldı</div>
+        </div>
+        <div class="my-reserve-body">
+          <div class="my-reserve-qr-area">
+            <div class="my-reserve-qr-box">
+              <svg width="90" height="90" viewBox="0 0 44 44" fill="none">
+                <rect width="44" height="44" fill="white"/>
+                <rect x="2" y="2" width="16" height="16" rx="2" fill="#111"/>
+                <rect x="4" y="4" width="12" height="12" rx="1" fill="white"/>
+                <rect x="6" y="6" width="8" height="8" rx="1" fill="#111"/>
+                <rect x="26" y="2" width="16" height="16" rx="2" fill="#111"/>
+                <rect x="28" y="4" width="12" height="12" rx="1" fill="white"/>
+                <rect x="30" y="6" width="8" height="8" rx="1" fill="#111"/>
+                <rect x="2" y="26" width="16" height="16" rx="2" fill="#111"/>
+                <rect x="4" y="28" width="12" height="12" rx="1" fill="white"/>
+                <rect x="6" y="30" width="8" height="8" rx="1" fill="#111"/>
+                <rect x="20" y="20" width="4" height="4" fill="#111"/>
+                <rect x="26" y="20" width="4" height="4" fill="#111"/>
+                <rect x="32" y="20" width="6" height="4" fill="#111"/>
+                <rect x="20" y="26" width="6" height="4" fill="#111"/>
+                <rect x="30" y="26" width="4" height="4" fill="#111"/>
+                <rect x="36" y="26" width="6" height="4" fill="#111"/>
+                <rect x="20" y="32" width="4" height="4" fill="#111"/>
+                <rect x="26" y="32" width="4" height="4" fill="#111"/>
+                <rect x="32" y="32" width="4" height="4" fill="#111"/>
+              </svg>
+            </div>
+            <div style="font-size:11px;font-weight:800;color:var(--ink-4);text-transform:uppercase;letter-spacing:1px">Rezervasyon Kodu</div>
+            <div class="my-reserve-pin">A7-4821</div>
+          </div>
+          <div class="my-reserve-info">
+            <div class="my-reserve-info-item">
+              <div class="my-reserve-info-lbl">Ürün</div>
+              <div class="my-reserve-info-val">Süt 1L</div>
+            </div>
+            <div class="my-reserve-info-item">
+              <div class="my-reserve-info-lbl">Fiyat</div>
+              <div class="my-reserve-info-val" style="color:var(--green)">₺15</div>
+            </div>
+            <div class="my-reserve-info-item">
+              <div class="my-reserve-info-lbl">Adet</div>
+              <div class="my-reserve-info-val">×2</div>
+            </div>
+            <div class="my-reserve-info-item" style="grid-column:1/-1">
+              <div class="my-reserve-info-lbl">Şube</div>
+              <div class="my-reserve-info-val">A101 Saadetdere · 1.2 km</div>
+            </div>
+          </div>
+          <div class="my-reserve-timer">
+            <div style="font-size:16px">⏱</div>
+            <div class="my-reserve-timer-text">Kalan süre</div>
+            <div class="my-reserve-timer-count">01:47:23</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expired reservation -->
+      <div class="my-reserve-card" style="opacity:0.6">
+        <div class="my-reserve-top" style="background:linear-gradient(135deg,#6B7280,#4B5563)">
+          <div class="my-reserve-store">🏪 BİM Esenyurt</div>
+          <div class="my-reserve-product">Ekmek ×3 &nbsp;·&nbsp; ₺15</div>
+          <div class="my-reserve-status-chip" style="background:rgba(0,0,0,0.25);border-color:rgba(0,0,0,0.3)">⛔ &nbsp;Süresi Doldu</div>
+        </div>
+        <div style="padding:10px 14px;font-size:11px;color:var(--ink-3);font-weight:600">31 Mar 2026 · 09:15 — Süre doldu</div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab"><div class="tab-icon">🏠</div><div class="tab-label">Ana Sayfa</div></div>
+        <div class="tab"><div class="tab-icon">🗺️</div><div class="tab-label">Harita</div></div>
+        <div class="tab"><div class="tab-icon">❤️</div><div class="tab-label">Favoriler</div></div>
+        <div class="tab active"><div class="tab-icon">🔔</div><div class="tab-label">Bildirim</div><div class="tab-active-bar"></div></div>
+        <div class="tab"><div class="tab-icon">👤</div><div class="tab-label">Profil</div></div>
+      </div>
+    </div>
+    <div class="screen-name">Rezervasyonlarım</div>
+  </div>
+
+</div><!-- /screens UC1 -->
+
+<!-- ══════════════════════════════════════════════
+     📱 USE CASE 2 — SON ŞANS PAKETİ
+═══════════════════════════════════════════════ -->
+<div class="section-label">📱 UC-2 · Son Şans Paketi — Tüketici Ekranı</div>
+<div class="screens">
+
+  <!-- Son Şans Paketi Liste Ekranı -->
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="status-bar white" style="position:absolute;top:0;width:100%;z-index:15;padding-top:10px"><span>9:41</span><span style="letter-spacing:2px">●●●</span></div>
+
+      <div class="son-sans-header">
+        <div style="height:22px"></div>
+        <div class="son-sans-title-row">
+          <div>
+            <div class="son-sans-page-title">🎁 Son Şans Paketleri</div>
+            <div class="son-sans-page-sub">Bugün biten ürünler, süper indirimde</div>
+          </div>
+          <div class="son-sans-countdown">
+            <div class="son-sans-countdown-num">04:18:33</div>
+            <div class="son-sans-countdown-lbl">Bitimine Kalan</div>
+          </div>
+        </div>
+
+        <!-- Featured pack -->
+        <div class="son-sans-featured">
+          <div class="son-sans-badge">🔥 &nbsp;Günün En İyi Fırsatı</div>
+          <div class="son-sans-pack-row">
+            <div class="son-sans-pack-icons">
+              <div class="son-sans-pack-icon">🥛</div>
+              <div class="son-sans-pack-icon">🍞</div>
+              <div class="son-sans-pack-icon">🧀</div>
+              <div class="son-sans-pack-icon">🥚</div>
+            </div>
+            <div>
+              <div class="son-sans-pack-name">Kahvaltı Seti</div>
+              <div class="son-sans-pack-items">Süt · Ekmek · Peynir · Yumurta (10'lu)</div>
+              <div class="son-sans-price-row">
+                <div class="son-sans-price-new">₺45</div>
+                <div class="son-sans-price-old">₺92</div>
+                <div class="son-sans-discount">%51</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="son-sans-body">
+        <div class="son-sans-section-title">Yakınımdaki Paketler</div>
+
+        <div class="son-sans-card">
+          <div class="son-sans-card-img">🥩</div>
+          <div style="flex:1">
+            <div class="son-sans-card-name">Et &amp; Tavuk Paketi</div>
+            <div class="son-sans-card-items">Tavuk göğsü 500g · Kıyma 250g · Köfte 200g</div>
+            <div style="font-size:10px;color:var(--ink-3);margin-bottom:5px;font-weight:600">🏪 A101 Saadetdere · 1.2 km</div>
+            <div class="son-sans-card-price-row">
+              <div class="son-sans-card-price">₺68</div>
+              <div class="son-sans-card-old">₺115</div>
+              <div class="son-sans-card-discount">%40</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="son-sans-card">
+          <div class="son-sans-card-img" style="background:#FFF8E8">🥤</div>
+          <div style="flex:1">
+            <div class="son-sans-card-name">İçecek Paketi</div>
+            <div class="son-sans-card-items">Meyve suyu 1L ×3 · Ayran 500ml ×2</div>
+            <div style="font-size:10px;color:var(--ink-3);margin-bottom:5px;font-weight:600">🏪 BİM Esenyurt · 2.1 km</div>
+            <div class="son-sans-card-price-row">
+              <div class="son-sans-card-price">₺32</div>
+              <div class="son-sans-card-old">₺58</div>
+              <div class="son-sans-card-discount">%44</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="son-sans-buy-btn">🎁 &nbsp;Kahvaltı Setini Satın Al — ₺45</div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab active"><div class="tab-icon">🏠</div><div class="tab-label">Ana Sayfa</div><div class="tab-active-bar"></div></div>
+        <div class="tab"><div class="tab-icon">🗺️</div><div class="tab-label">Harita</div></div>
+        <div class="tab"><div class="tab-icon">❤️</div><div class="tab-label">Favoriler</div></div>
+        <div class="tab"><div class="tab-icon">🔔</div><div class="tab-label">Bildirim</div></div>
+        <div class="tab"><div class="tab-icon">👤</div><div class="tab-label">Profil</div></div>
+      </div>
+    </div>
+    <div class="screen-name">Son Şans Paketleri</div>
+  </div>
+
+</div><!-- /screens UC2 -->
+
+<!-- ══════════════════════════════════════════════
+     🌱 USE CASE 3 — ÇEVRESEL ETKİ RAPORU
+═══════════════════════════════════════════════ -->
+<div class="section-label">🌱 UC-3 · Çevresel Etki Raporunu Görüntüle — Tüketici</div>
+<div class="screens">
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="status-bar white" style="position:absolute;top:0;width:100%;z-index:15;padding-top:10px"><span>9:41</span><span style="letter-spacing:2px">●●●</span></div>
+
+      <div class="eco-header">
+        <div style="height:22px"></div>
+        <div class="eco-title-row">
+          <div>
+            <div class="eco-title">🌍 Çevresel Etkim</div>
+            <div class="eco-sub">Mart 2026 · Kişisel Rapor</div>
+          </div>
+          <div class="eco-share-btn">📤 Paylaş</div>
+        </div>
+
+        <div class="eco-hero-stat">
+          <div class="eco-hero-icon">♻️</div>
+          <div>
+            <div class="eco-hero-num">18.4 kg</div>
+            <div class="eco-hero-label">Kurtarılan Gıda</div>
+            <div class="eco-hero-sub">≈ 46.2 kg CO₂ emisyonu önlendi</div>
+          </div>
+        </div>
+
+        <div class="eco-stats-row">
+          <div class="eco-mini-stat">
+            <div class="eco-mini-icon">🛒</div>
+            <div class="eco-mini-num">47</div>
+            <div class="eco-mini-lbl">Alışveriş</div>
+          </div>
+          <div class="eco-mini-stat">
+            <div class="eco-mini-icon">💚</div>
+            <div class="eco-mini-num">₺312</div>
+            <div class="eco-mini-lbl">Tasarruf</div>
+          </div>
+          <div class="eco-mini-stat">
+            <div class="eco-mini-icon">🌱</div>
+            <div class="eco-mini-num">3 ağaç</div>
+            <div class="eco-mini-lbl">Eşdeğer</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="eco-body">
+        <!-- Progress bars -->
+        <div class="eco-impact-card">
+          <div class="eco-impact-title">Kategori Katkısı</div>
+          <div class="eco-bar-row">
+            <div class="eco-bar-item">
+              <div class="eco-bar-header">
+                <div class="eco-bar-label">🥛 Süt &amp; Süt Ürünleri</div>
+                <div class="eco-bar-val">7.2 kg</div>
+              </div>
+              <div class="eco-bar-track"><div class="eco-bar-fill" style="width:72%;background:var(--green)"></div></div>
+            </div>
+            <div class="eco-bar-item">
+              <div class="eco-bar-header">
+                <div class="eco-bar-label">🍞 Ekmek &amp; Unlu</div>
+                <div class="eco-bar-val">5.1 kg</div>
+              </div>
+              <div class="eco-bar-track"><div class="eco-bar-fill" style="width:51%;background:#059669"></div></div>
+            </div>
+            <div class="eco-bar-item">
+              <div class="eco-bar-header">
+                <div class="eco-bar-label">🥩 Et &amp; Tavuk</div>
+                <div class="eco-bar-val">3.8 kg</div>
+              </div>
+              <div class="eco-bar-track"><div class="eco-bar-fill" style="width:38%;background:#10B981"></div></div>
+            </div>
+            <div class="eco-bar-item">
+              <div class="eco-bar-header">
+                <div class="eco-bar-label">🥤 İçecekler</div>
+                <div class="eco-bar-val">2.3 kg</div>
+              </div>
+              <div class="eco-bar-track"><div class="eco-bar-fill" style="width:23%;background:#34D399"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Badges -->
+        <div style="font-size:13px;font-weight:900;color:var(--ink);margin-bottom:8px">Kazanılan Rozetler</div>
+        <div class="eco-badges-row">
+          <div class="eco-badge-item earned">
+            <div class="eco-badge-icon">🌱</div>
+            <div class="eco-badge-name">Gıda Kurtarıcı</div>
+          </div>
+          <div class="eco-badge-item earned">
+            <div class="eco-badge-icon">♻️</div>
+            <div class="eco-badge-name">Yeşil Alışveriş</div>
+          </div>
+          <div class="eco-badge-item earned">
+            <div class="eco-badge-icon">🌍</div>
+            <div class="eco-badge-name">Çevre Dostu</div>
+          </div>
+          <div class="eco-badge-item">
+            <div class="eco-badge-icon" style="opacity:0.3">🏆</div>
+            <div class="eco-badge-name" style="opacity:0.4">Süper Kahraman</div>
+          </div>
+        </div>
+
+        <!-- Monthly history -->
+        <div class="eco-impact-card" style="margin-top:10px">
+          <div class="eco-impact-title">Aylık Geçmiş</div>
+          <div class="eco-month-row">
+            <div class="eco-month-dot" style="background:var(--green)"></div>
+            <div class="eco-month-name">Mart 2026</div>
+            <div class="eco-month-kg">18.4 kg</div>
+          </div>
+          <div class="eco-month-row">
+            <div class="eco-month-dot" style="background:#10B981"></div>
+            <div class="eco-month-name">Şubat 2026</div>
+            <div class="eco-month-kg">14.1 kg</div>
+          </div>
+          <div class="eco-month-row">
+            <div class="eco-month-dot" style="background:#34D399"></div>
+            <div class="eco-month-name">Ocak 2026</div>
+            <div class="eco-month-kg">9.7 kg</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab"><div class="tab-icon">🏠</div><div class="tab-label">Ana Sayfa</div></div>
+        <div class="tab"><div class="tab-icon">🗺️</div><div class="tab-label">Harita</div></div>
+        <div class="tab"><div class="tab-icon">❤️</div><div class="tab-label">Favoriler</div></div>
+        <div class="tab"><div class="tab-icon">🔔</div><div class="tab-label">Bildirim</div></div>
+        <div class="tab active"><div class="tab-icon">👤</div><div class="tab-label">Profil</div><div class="tab-active-bar"></div></div>
+      </div>
+    </div>
+    <div class="screen-name">Çevresel Etki Raporu</div>
+  </div>
+
+</div><!-- /screens UC3 -->
+
+<!-- ══════════════════════════════════════════════
+     🖥️ USE CASE 4 — SON ŞANS PAKETİ OLUŞTUR + QR DOĞRULAMA (Market Sahibi Web)
+═══════════════════════════════════════════════ -->
+<div class="web-section">
+<div class="section-label" style="padding:0 24px;margin-bottom:28px">🖥️ UC-4 · Son Şans Paketi Oluştur — Market Sahibi Web</div>
+
+<div class="browser-frame" style="border-radius:0;margin-bottom:40px">
+  <div class="browser-bar">
+    <div class="browser-dots">
+      <div class="browser-dot" style="background:#FF5F57"></div>
+      <div class="browser-dot" style="background:#FFBD2E"></div>
+      <div class="browser-dot" style="background:#28CA41"></div>
+    </div>
+    <div class="browser-url">🔒 &nbsp;admin.ceptekalsin.com/son-sans-paketi</div>
+  </div>
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-wrap">
+          <div class="sidebar-logo-icon">🛒</div>
+          <div>
+            <div class="sidebar-logo-title">Cepte Kalsın</div>
+            <div class="sidebar-logo-sub">Yönetici Paneli</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-store">
+        <div class="sidebar-store-label">Aktif Şube</div>
+        <div class="sidebar-store-name">A101 Saadetdere</div>
+      </div>
+      <div class="sidebar-menu-section">Ana Menü</div>
+      <div class="menu-item"><span class="menu-icon">📦</span> Ürünlerim</div>
+      <div class="menu-item active"><span class="menu-icon">🎁</span> Son Şans Paketi</div>
+      <div class="menu-item"><span class="menu-icon">📷</span> QR Doğrulama</div>
+      <div class="menu-item"><span class="menu-icon">🔔</span> Bildirimler<span class="menu-badge">3</span></div>
+      <div class="sidebar-menu-section">Analitik</div>
+      <div class="menu-item"><span class="menu-icon">📊</span> İstatistikler</div>
+      <div class="menu-item"><span class="menu-icon">🏪</span> Şube Bilgisi</div>
+      <div class="sidebar-footer"><div class="sidebar-logout">🚪 &nbsp;Çıkış Yap</div></div>
+    </div>
+
+    <div class="main-content">
+      <div class="main-header">
+        <div>
+          <div class="main-title">Son Şans Paketi Oluştur</div>
+          <div class="main-sub"><span class="dot"></span>SKT yaklaşan ürünleri paketleyerek sat</div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <div class="btn-outline">📋 &nbsp;Mevcut Paketler (2)</div>
+          <div class="btn-green">🎁 &nbsp;Yeni Paket</div>
+        </div>
+      </div>
+
+      <div class="pack-create-card">
+        <div class="pack-create-title">🎁 Yeni Son Şans Paketi</div>
+        <div class="pack-create-sub">Bugün ve yarın sona erecek ürünleri bir pakete ekleyerek müşterilere cazip fiyatla sun</div>
+
+        <div class="pack-grid">
+          <div class="pack-group full">
+            <div class="pack-label">Paket Adı</div>
+            <div class="pack-input focus">Kahvaltı Seti — 1 Nisan</div>
+          </div>
+          <div class="pack-group">
+            <div class="pack-label">Normal Toplam Değer (₺)</div>
+            <div class="pack-input">92,00</div>
+          </div>
+          <div class="pack-group">
+            <div class="pack-label">Paket Fiyatı (₺)</div>
+            <div class="pack-input purple">45,00</div>
+          </div>
+          <div class="pack-group">
+            <div class="pack-label">İndirim Oranı</div>
+            <div class="pack-input" style="color:#7C3AED;font-weight:900">%51 — Hesaplandı</div>
+          </div>
+          <div class="pack-group">
+            <div class="pack-label">Stok Adedi</div>
+            <div class="pack-input">5 paket</div>
+          </div>
+          <div class="pack-group">
+            <div class="pack-label">Son Satış Saati</div>
+            <div class="pack-input">31 Mar · 22:00</div>
+          </div>
+        </div>
+
+        <div class="pack-label" style="margin-bottom:10px">📦 Pakete Eklenecek Ürünler (SKT yaklaşanlar)</div>
+        <div class="pack-product-grid">
+          <div class="pack-product-chip added">
+            <div class="pack-product-chip-icon">🥛</div>
+            <div>
+              <div class="pack-product-chip-name">Süt 1L</div>
+              <div class="pack-product-chip-skt">SKT: 2 gün · 10 adet</div>
+            </div>
+            <div class="pack-product-chip-check">✓</div>
+          </div>
+          <div class="pack-product-chip added">
+            <div class="pack-product-chip-icon">🍞</div>
+            <div>
+              <div class="pack-product-chip-name">Ekmek</div>
+              <div class="pack-product-chip-skt">SKT: Bugün · 20 adet</div>
+            </div>
+            <div class="pack-product-chip-check">✓</div>
+          </div>
+          <div class="pack-product-chip added">
+            <div class="pack-product-chip-icon">🧀</div>
+            <div>
+              <div class="pack-product-chip-name">Peynir 200g</div>
+              <div class="pack-product-chip-skt">SKT: 1 gün · 6 adet</div>
+            </div>
+            <div class="pack-product-chip-check">✓</div>
+          </div>
+          <div class="pack-product-chip added">
+            <div class="pack-product-chip-icon">🥚</div>
+            <div>
+              <div class="pack-product-chip-name">Yumurta 10'lu</div>
+              <div class="pack-product-chip-skt">SKT: 3 gün · 8 adet</div>
+            </div>
+            <div class="pack-product-chip-check">✓</div>
+          </div>
+          <div class="pack-product-chip">
+            <div class="pack-product-chip-icon">🥩</div>
+            <div>
+              <div class="pack-product-chip-name">Tavuk Göğsü</div>
+              <div class="pack-product-chip-skt">SKT: 3 gün · 8 adet</div>
+            </div>
+          </div>
+          <div class="pack-product-chip">
+            <div class="pack-product-chip-icon">🥤</div>
+            <div>
+              <div class="pack-product-chip-name">Meyve Suyu</div>
+              <div class="pack-product-chip-skt">SKT: 5 gün · 15 adet</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pack-preview">
+          <div class="pack-preview-title">Paket Önizlemesi (Müşteri Görecek)</div>
+          <div class="pack-preview-name">🎁 Kahvaltı Seti — 1 Nisan</div>
+          <div class="pack-preview-items">Süt 1L · Ekmek · Peynir 200g · Yumurta 10'lu</div>
+          <div class="pack-preview-price-row">
+            <div class="pack-preview-new">₺45</div>
+            <div class="pack-preview-old">₺92</div>
+            <div class="pack-preview-save">₺47 tasarruf · %51 indirim</div>
+          </div>
+        </div>
+
+        <div class="pack-footer">
+          <div class="pack-cancel-btn">İptal</div>
+          <div class="btn-outline">👁 &nbsp;Önizle</div>
+          <div class="pack-save-btn">🎁 &nbsp;Paketi Yayınla</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── QR / PIN DOĞRULAMA ─────────────────────────── -->
+<div class="section-label" style="padding:0 24px;margin:40px 0 28px">📷 UC-4b · QR/PIN ile Satışı Doğrula — Market Sahibi Web</div>
+
+<div class="browser-frame" style="border-radius:0;margin-bottom:40px">
+  <div class="browser-bar">
+    <div class="browser-dots">
+      <div class="browser-dot" style="background:#FF5F57"></div>
+      <div class="browser-dot" style="background:#FFBD2E"></div>
+      <div class="browser-dot" style="background:#28CA41"></div>
+    </div>
+    <div class="browser-url">🔒 &nbsp;admin.ceptekalsin.com/qr-dogrulama</div>
+  </div>
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-wrap">
+          <div class="sidebar-logo-icon">🛒</div>
+          <div>
+            <div class="sidebar-logo-title">Cepte Kalsın</div>
+            <div class="sidebar-logo-sub">Yönetici Paneli</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-store">
+        <div class="sidebar-store-label">Aktif Şube</div>
+        <div class="sidebar-store-name">A101 Saadetdere</div>
+      </div>
+      <div class="sidebar-menu-section">Ana Menü</div>
+      <div class="menu-item"><span class="menu-icon">📦</span> Ürünlerim</div>
+      <div class="menu-item"><span class="menu-icon">🎁</span> Son Şans Paketi</div>
+      <div class="menu-item active"><span class="menu-icon">📷</span> QR Doğrulama</div>
+      <div class="menu-item"><span class="menu-icon">🔔</span> Bildirimler<span class="menu-badge">3</span></div>
+      <div class="sidebar-menu-section">Analitik</div>
+      <div class="menu-item"><span class="menu-icon">📊</span> İstatistikler</div>
+      <div class="sidebar-footer"><div class="sidebar-logout">🚪 &nbsp;Çıkış Yap</div></div>
+    </div>
+
+    <div class="main-content">
+      <div class="main-header">
+        <div>
+          <div class="main-title">QR / PIN Satış Doğrulama</div>
+          <div class="main-sub"><span class="dot"></span>Müşteri rezervasyonunu veya siparişini doğrula</div>
+        </div>
+        <div class="btn-green">📷 &nbsp;Kamerayı Aç</div>
+      </div>
+
+      <!-- Confirmed state -->
+      <div class="qr-confirm-card">
+        <div class="qr-confirm-icon">✅</div>
+        <div>
+          <div class="qr-confirm-title">Satış Doğrulandı! — A7-4821</div>
+          <div class="qr-confirm-sub">Müşteri: Ayşe Kaya · 31 Mar 2026 · 09:47</div>
+          <div class="qr-confirm-details">
+            <div class="qr-confirm-row">
+              <div class="qr-confirm-lbl">Ürün</div>
+              <div class="qr-confirm-val">Süt 1L ×2</div>
+            </div>
+            <div class="qr-confirm-row">
+              <div class="qr-confirm-lbl">Tutar</div>
+              <div class="qr-confirm-val" style="color:var(--green)">₺30 ödendi</div>
+            </div>
+            <div class="qr-confirm-row">
+              <div class="qr-confirm-lbl">Tasarruf</div>
+              <div class="qr-confirm-val">₺20 tasarruf sağlandı</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qr-scanner-card">
+        <div class="qr-scanner-title">Yeni Satış Doğrula</div>
+        <div class="qr-scanner-sub">Müşterinin QR kodunu okutun veya rezervasyon PIN'ini girin</div>
+
+        <div class="qr-layout">
+          <!-- Camera -->
+          <div>
+            <div class="qr-cam-box">
+              <div class="qr-cam-grid"></div>
+              <div class="qr-cam-corners">
+                <div class="qr-cam-corner tl"></div>
+                <div class="qr-cam-corner tr"></div>
+                <div class="qr-cam-corner bl"></div>
+                <div class="qr-cam-corner br"></div>
+              </div>
+              <div class="qr-scan-line"></div>
+              <div class="qr-cam-label">📸 QR Kodu Kameraya Tut</div>
+            </div>
+          </div>
+
+          <!-- PIN side -->
+          <div style="display:flex;align-items:center;gap:0">
+            <div class="qr-or-divider" style="height:100%">
+              <div class="qr-or-line"></div>
+              <div class="qr-or-text">VEYA</div>
+              <div class="qr-or-line"></div>
+            </div>
+            <div class="qr-pin-side" style="flex:1;padding-left:16px">
+              <div>
+                <div class="qr-pin-label">Rezervasyon PIN Kodu</div>
+                <div class="qr-pin-boxes">
+                  <div class="qr-pin-box filled">A</div>
+                  <div class="qr-pin-box filled">7</div>
+                  <div class="qr-pin-box active">-</div>
+                  <div class="qr-pin-box">·</div>
+                  <div class="qr-pin-box">·</div>
+                  <div class="qr-pin-box">·</div>
+                </div>
+              </div>
+              <div>
+                <div class="qr-pin-label">Manuel Kod Girişi</div>
+                <input class="qr-manual-input" value="A7-" placeholder="Örn: A7-4821" style="font-family:Nunito,sans-serif">
+              </div>
+              <div style="margin-top:4px">
+                <div style="background:linear-gradient(135deg,var(--green),var(--green-dark));color:#fff;font-weight:900;font-size:14px;padding:13px;border-radius:12px;text-align:center;box-shadow:0 4px 16px rgba(29,158,117,0.3);cursor:pointer">
+                  ✅ &nbsp;Doğrula
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent sales log -->
+      <div class="card" style="overflow:hidden">
+        <div style="padding:18px 20px;border-bottom:1.5px solid #F5F5F5;display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:15px;font-weight:900;color:var(--ink)">Son Doğrulamalar</div>
+          <div style="font-size:12px;font-weight:800;color:var(--green)">Tümünü Gör →</div>
+        </div>
+        <table class="qr-recent-table">
+          <thead>
+            <tr>
+              <th>Kod</th><th>Müşteri</th><th>Ürün</th><th>Tutar</th><th>Saat</th><th>Durum</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:900;color:var(--ink)">A7-4821</td>
+              <td>Ayşe Kaya</td>
+              <td>Süt 1L ×2</td>
+              <td style="font-weight:900;color:var(--green)">₺30</td>
+              <td style="color:var(--ink-3)">09:47</td>
+              <td><span class="badge badge-green">✓ Onaylandı</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:900;color:var(--ink)">B3-1192</td>
+              <td>Mehmet Yıldız</td>
+              <td>Kahvaltı Paketi</td>
+              <td style="font-weight:900;color:var(--green)">₺45</td>
+              <td style="color:var(--ink-3)">09:31</td>
+              <td><span class="badge badge-green">✓ Onaylandı</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:900;color:var(--ink)">C9-8833</td>
+              <td>Fatma Demir</td>
+              <td>Ekmek ×5</td>
+              <td style="font-weight:900;color:var(--green)">₺25</td>
+              <td style="color:var(--ink-3)">08:55</td>
+              <td><span class="badge badge-green">✓ Onaylandı</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:900;color:var(--ink-3)">D2-5541</td>
+              <td style="color:var(--ink-3)">Bilinmiyor</td>
+              <td style="color:var(--ink-3)">Tavuk Göğsü</td>
+              <td style="color:var(--red);font-weight:900">—</td>
+              <td style="color:var(--ink-3)">08:22</td>
+              <td><span class="badge badge-red">✕ Geçersiz</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     👑 USE CASE 5 — MARKET BAŞVURU ONAY/RED (SİSTEM YÖNETİCİSİ)
+═══════════════════════════════════════════════ -->
+<div class="section-label" style="padding:0 24px;margin:40px 0 28px">👑 UC-5 · Market Başvurularını Onayla/Reddet — Sistem Yöneticisi</div>
+
+<div class="browser-frame" style="border-radius:0;margin-bottom:80px">
+  <div class="browser-bar">
+    <div class="browser-dots">
+      <div class="browser-dot" style="background:#FF5F57"></div>
+      <div class="browser-dot" style="background:#FFBD2E"></div>
+      <div class="browser-dot" style="background:#28CA41"></div>
+    </div>
+    <div class="browser-url">🔒 &nbsp;superadmin.ceptekalsin.com/basvurular</div>
+  </div>
+
+  <div class="admin-panel">
+    <!-- Admin sidebar — distinct dark navy theme -->
+    <div class="admin-sidebar">
+      <div class="admin-sidebar-logo">
+        <div class="admin-sidebar-brand">
+          <div class="admin-sidebar-icon">🛒</div>
+          <div>
+            <div class="admin-sidebar-title">Cepte Kalsın</div>
+            <div class="admin-sidebar-sub">Sistem Yönetimi</div>
+          </div>
+        </div>
+      </div>
+      <div class="admin-role-chip">
+        <div class="admin-role-label">Yetki Seviyesi</div>
+        <div class="admin-role-name">👑 Sistem Yöneticisi</div>
+      </div>
+      <div class="admin-menu-section">Yönetim</div>
+      <div class="admin-menu-item active">
+        <span style="font-size:15px">🏪</span> Başvurular
+        <span class="admin-menu-badge">5</span>
+      </div>
+      <div class="admin-menu-item"><span style="font-size:15px">✅</span> Aktif Marketler</div>
+      <div class="admin-menu-item"><span style="font-size:15px">🚫</span> Askıya Alınanlar</div>
+      <div class="admin-menu-section">Raporlar</div>
+      <div class="admin-menu-item"><span style="font-size:15px">📊</span> İsraf Raporları</div>
+      <div class="admin-menu-item"><span style="font-size:15px">📈</span> Trafik Raporları</div>
+      <div class="admin-menu-item"><span style="font-size:15px">👥</span> Kullanıcı Yönetimi</div>
+      <div class="admin-sidebar-footer">
+        <div class="admin-menu-item" style="padding:0;color:rgba(255,255,255,0.3)">🚪 &nbsp;Çıkış Yap</div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <div class="admin-content-header">
+        <div>
+          <div class="admin-content-title">Market Başvuruları</div>
+          <div class="admin-content-sub"><span style="width:6px;height:6px;background:var(--red);border-radius:50%;display:inline-block"></span> &nbsp;5 yeni başvuru inceleme bekliyor · 31 Mart 2026</div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <div class="btn-outline">📥 &nbsp;Dışa Aktar</div>
+          <div class="btn-green">📧 &nbsp;Toplu Bildir</div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="admin-stat-strip">
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">⏳</div>
+          <div class="admin-stat-num red">5</div>
+          <div class="admin-stat-lbl">Bekleyen Başvuru</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">✅</div>
+          <div class="admin-stat-num green">1.240</div>
+          <div class="admin-stat-lbl">Onaylı Market</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">🚫</div>
+          <div class="admin-stat-num orange">12</div>
+          <div class="admin-stat-lbl">Reddedilen</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">📊</div>
+          <div class="admin-stat-num">%94</div>
+          <div class="admin-stat-lbl">Onay Oranı</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="app-filter-row">
+        <div class="app-filter-chip all">Tümü (5)</div>
+        <div class="app-filter-chip active">⏳ Beklemede (3)</div>
+        <div class="app-filter-chip">🔵 Yeni (2)</div>
+        <div class="app-filter-chip approved">✅ Onaylananlar</div>
+      </div>
+
+      <!-- Application Card 1 — already approved -->
+      <div class="app-approved-banner">
+        <div class="app-approved-icon">🎉</div>
+        <div>
+          <div class="app-approved-title">ŞOK Market — Bağcılar Şubesi Onaylandı!</div>
+          <div class="app-approved-sub">Az önce onaylandı · Hoş geldin e-postası gönderildi · Sisteme erişim açıldı</div>
+        </div>
+      </div>
+
+      <!-- Application Card 2 — pending review -->
+      <div class="app-card">
+        <div class="app-card-header">
+          <div class="app-market-icon">🛒</div>
+          <div style="flex:1">
+            <div class="app-market-name">Migros — Güneşli Şubesi</div>
+            <div class="app-market-meta">İstanbul, Bağcılar &nbsp;·&nbsp; Başvuru: 29 Mart 2026 &nbsp;·&nbsp; Sorumlu: Emre Şahin</div>
+            <div class="app-status-row">
+              <div class="app-status-badge pending">⏳ İnceleme Bekliyor</div>
+              <div style="font-size:11px;color:var(--ink-3);font-weight:600">2 gün önce başvurdu</div>
+            </div>
+          </div>
+          <div style="font-size:22px">🛒</div>
+        </div>
+
+        <div class="app-info-grid">
+          <div class="app-info-item">
+            <div class="app-info-lbl">Zincir</div>
+            <div class="app-info-val">Migros</div>
+          </div>
+          <div class="app-info-item">
+            <div class="app-info-lbl">Şehir</div>
+            <div class="app-info-val">İstanbul</div>
+          </div>
+          <div class="app-info-item">
+            <div class="app-info-lbl">İlçe</div>
+            <div class="app-info-val">Bağcılar</div>
+          </div>
+          <div class="app-info-item">
+            <div class="app-info-lbl">Yetkili</div>
+            <div class="app-info-val">Emre Şahin</div>
+          </div>
+          <div class="app-info-item">
+            <div class="app-info-lbl">Telefon</div>
+            <div class="app-info-val">0533 421 88 74</div>
+          </div>
+          <div class="app-info-item">
+            <div class="app-info-lbl">E-posta</div>
+            <div class="app-info-val">emre@migros.com</div>
+          </div>
+        </div>
+
+        <!-- Documents -->
+        <div style="font-size:12px;font-weight:800;color:var(--ink-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Belgeler</div>
+        <div class="app-docs">
+          <div class="app-doc-row ok">
+            <div class="app-doc-icon">📄</div>
+            <div class="app-doc-name">Vergi Levhası</div>
+            <div class="app-doc-status">✓ Doğrulandı</div>
+          </div>
+          <div class="app-doc-row ok">
+            <div class="app-doc-icon">📋</div>
+            <div class="app-doc-name">Ticaret Sicil Gazetesi</div>
+            <div class="app-doc-status">✓ Doğrulandı</div>
+          </div>
+          <div class="app-doc-row ok">
+            <div class="app-doc-icon">🏪</div>
+            <div class="app-doc-name">İşyeri Açma Ruhsatı</div>
+            <div class="app-doc-status">✓ Doğrulandı</div>
+          </div>
+          <div class="app-doc-row warn">
+            <div class="app-doc-icon">🪪</div>
+            <div class="app-doc-name">Yetkili Kimlik Fotokopisi</div>
+            <div class="app-doc-status">⚠️ Bekleniyor</div>
+          </div>
+        </div>
+
+        <div class="app-action-row">
+          <div class="app-reject-btn">✕ &nbsp;Reddet</div>
+          <div class="app-review-btn">📝 &nbsp;Ek Belge İste</div>
+          <div class="app-approve-btn">✅ &nbsp;Onayla &amp; Aktifleştir</div>
+        </div>
+      </div>
+
+      <!-- Application Card 3 — new -->
+      <div class="app-card">
+        <div class="app-card-header">
+          <div class="app-market-icon" style="background:#EFF6FF">🏬</div>
+          <div style="flex:1">
+            <div class="app-market-name">CarrefourSA — Esenyurt Şubesi</div>
+            <div class="app-market-meta">İstanbul, Esenyurt &nbsp;·&nbsp; Başvuru: 31 Mart 2026 &nbsp;·&nbsp; Sorumlu: Zeynep Arslan</div>
+            <div class="app-status-row">
+              <div class="app-status-badge new">🔵 Yeni Başvuru</div>
+              <div style="font-size:11px;color:var(--ink-3);font-weight:600">Bugün başvurdu</div>
+            </div>
+          </div>
+          <div style="font-size:22px">🏬</div>
+        </div>
+
+        <div class="app-info-grid">
+          <div class="app-info-item"><div class="app-info-lbl">Zincir</div><div class="app-info-val">CarrefourSA</div></div>
+          <div class="app-info-item"><div class="app-info-lbl">Şehir</div><div class="app-info-val">İstanbul</div></div>
+          <div class="app-info-item"><div class="app-info-lbl">İlçe</div><div class="app-info-val">Esenyurt</div></div>
+          <div class="app-info-item"><div class="app-info-lbl">Yetkili</div><div class="app-info-val">Zeynep Arslan</div></div>
+          <div class="app-info-item"><div class="app-info-lbl">Telefon</div><div class="app-info-val">0542 388 22 11</div></div>
+          <div class="app-info-item"><div class="app-info-lbl">E-posta</div><div class="app-info-val">z.arslan@carrefour.com</div></div>
+        </div>
+
+        <div style="font-size:12px;font-weight:800;color:var(--ink-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Belgeler</div>
+        <div class="app-docs">
+          <div class="app-doc-row ok"><div class="app-doc-icon">📄</div><div class="app-doc-name">Vergi Levhası</div><div class="app-doc-status">✓ Doğrulandı</div></div>
+          <div class="app-doc-row warn"><div class="app-doc-icon">📋</div><div class="app-doc-name">Ticaret Sicil Gazetesi</div><div class="app-doc-status">⚠️ İnceleniyor</div></div>
+          <div class="app-doc-row warn"><div class="app-doc-icon">🏪</div><div class="app-doc-name">İşyeri Açma Ruhsatı</div><div class="app-doc-status">⚠️ Bekleniyor</div></div>
+          <div class="app-doc-row warn"><div class="app-doc-icon">🪪</div><div class="app-doc-name">Yetkili Kimlik Fotokopisi</div><div class="app-doc-status">⚠️ Bekleniyor</div></div>
+        </div>
+
+        <div class="app-action-row">
+          <div class="app-reject-btn">✕ &nbsp;Reddet</div>
+          <div class="app-review-btn">📝 &nbsp;Ek Belge İste</div>
+          <div class="app-approve-btn" style="opacity:0.5;cursor:not-allowed">🔒 &nbsp;Belgeler Eksik</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div><!-- /web-section -->
+</body>
+</html>
